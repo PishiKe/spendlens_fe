@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:splendlens_fe/ui/authentication/login/login.dart';
+import 'package:splendlens_fe/ui/views/authentication/login/login.dart';
 
 void main() {
   runApp(const MyApp());

@@ -4,6 +4,9 @@ import 'package:splendlens_fe/core/data/remote/remote.dart';
 import 'package:http/http.dart' as http;
 
 class NetworkApiService extends BaseApiService {
+  final Map<String, dynamic> _allowedHeaders = {
+    'Content-type': 'application/json'
+  };
   dynamic returnResponse(http.Response response) {
     dynamic responseJson = jsonDecode(response.body);
 
@@ -30,10 +33,8 @@ class NetworkApiService extends BaseApiService {
   Future login(String url, body) async {
     dynamic responseJson;
     try {
-      final response = await http.post(
-        Uri.parse(baseUrl + url),
-        body: json.encode(body),
-      );
+      final response = await http.post(Uri.parse(baseUrl + url),
+          body: json.encode(body), headers: {..._allowedHeaders});
       returnResponse(response);
     } on SocketException {
       throw FetchDataException('No Internet Connection');

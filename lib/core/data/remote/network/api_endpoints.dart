@@ -1,3 +1,3 @@
 class ApiEndpoints {
-  final String login = '/login';
+  final String login = '/dj-rest-auth/login/';
 }

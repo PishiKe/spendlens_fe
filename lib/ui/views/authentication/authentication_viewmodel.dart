@@ -1,13 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:splendlens_fe/repository/repository.dart';
 
-class AuthenticationViewmodel {
-  final _authRepo = AuthRepositoryImp();
+class AuthenticationViewModel {
+  final AuthRepository authRepository = AuthRepositoryImp();
+  String errorMessage = '';
 
-  Future<void> login(BuildContext context, dynamic body) async {
-    // to move to state
-    dynamic loginBody = body;
+  Future<void> login(BuildContext context, Map<String, dynamic> body) async {
+    try {
+      final response = await authRepository.login(body);
 
-    await _authRepo.login(body);
+      if (response != null) {
+        // Handle the successful response (store token, navigate, etc.)
+        print('Login successful, response: ${response.toJson()}');
+      }
+    } catch (e) {
+      errorMessage = e.toString();
+      print('Login error: $errorMessage');
+    } finally {
+      // You can manage the loading state here if needed
+    }
   }
 }

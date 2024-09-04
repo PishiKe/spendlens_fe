@@ -1,5 +1,5 @@
 abstract class DefaultResponse {
-  late bool status;
+  late bool statusCode;
   late String message;
 
   Map<String, dynamic> toJson();

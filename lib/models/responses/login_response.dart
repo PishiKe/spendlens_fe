@@ -2,26 +2,25 @@ import 'package:splendlens_fe/models/models.dart';
 
 class LoginResponse implements DefaultResponse {
   @override
-  late String message;
+  String message;
 
   @override
-  late bool status;
+  bool statusCode;
+  SessionData? body;
 
-  SessionData? data;
-
-  LoginResponse({required this.status, required this.message, this.data});
+  LoginResponse({required this.statusCode, required this.message, this.body});
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) => LoginResponse(
-        status: json['status'] ?? false,
+        statusCode: json['statusCode'] ?? false,
         message: json['message'] ?? '',
-        data: json['data'] != null ? SessionData.fromJson(json['data']) : null,
+        body: json['body'] != null ? SessionData.fromJson(json['body']) : null,
       );
 
   @override
   Map<String, dynamic> toJson() => {
-        'status': status,
+        'status': statusCode,
         'message': message,
-        'data': data != null ? data!.toJson() : {},
+        'body': body != null ? body!.toJson() : {},
       };
 }
 

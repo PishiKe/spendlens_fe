@@ -7,13 +7,12 @@ class Login extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AuthenticationViewmodel? authenticationViewmodel =
-        AuthenticationViewmodel();
+    AuthenticationViewModel authenticationViewmodel = AuthenticationViewModel();
 
-    final data = LoginModel(username: 'pishi', password: 'pishi');
+    final loginModel = LoginModel(username: 'pishi', password: 'pishi');
 
-    handleLogin(context, body) {
-      authenticationViewmodel.login(context, body);
+    handleLogin(context, body) async {
+      await authenticationViewmodel.login(context, loginModel.toJson());
     }
 
     return SafeArea(
@@ -23,7 +22,7 @@ class Login extends StatelessWidget {
             children: [
               MaterialButton(
                 onPressed: () {
-                  handleLogin(context, data);
+                  handleLogin(context, loginModel);
                 },
                 child: Text('Test'),
               )

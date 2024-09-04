@@ -30,15 +30,21 @@ class NetworkApiService extends BaseApiService {
   }
 
   @override
-  Future login(String url, body) async {
-    dynamic responseJson;
+  Future<dynamic> login(String url, Map<String, dynamic> body) async {
     try {
-      final response = await http.post(Uri.parse(baseUrl + url),
-          body: json.encode(body), headers: {..._allowedHeaders});
-      returnResponse(response);
+      final response = await http.post(
+        Uri.parse(baseUrl + url),
+        body: json.encode(body),
+        headers: {..._allowedHeaders},
+      );
+
+      // print('Response Status: ${response.statusCode}');
+      // print('Response Headers: ${response.headers}');
+      // print('Response Body: ${response.body}');
+
+      return returnResponse(response);
     } on SocketException {
       throw FetchDataException('No Internet Connection');
     }
-    return responseJson;
   }
 }

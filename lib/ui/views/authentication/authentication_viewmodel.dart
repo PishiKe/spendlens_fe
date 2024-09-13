@@ -11,11 +11,11 @@ class AuthenticationViewModel {
 
       if (response != null) {
         // Handle the successful response (store token, navigate, etc.)
-        print('Login successful, response: ${response.toJson()}');
+        // print('Login response: ${response.toJson()}');
       }
     } catch (e) {
       errorMessage = e.toString();
-      print('Login error: $errorMessage');
+      debugPrint('Login error: $errorMessage');
     } finally {
       // You can manage the loading state here if needed
     }

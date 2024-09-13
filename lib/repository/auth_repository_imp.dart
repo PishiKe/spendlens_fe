@@ -21,7 +21,7 @@ class AuthRepositoryImp implements AuthRepository {
       return LoginResponse.fromJson(response);
     } catch (e) {
       print('Error during login: $e');
-      rethrow;  // Re-throw the exception to be handled elsewhere
+      rethrow; // Re-throw the exception to be handled elsewhere
     }
   }
 }

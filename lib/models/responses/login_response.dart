@@ -1,41 +1,35 @@
-import 'package:splendlens_fe/models/models.dart';
+class LoginResponse {
+  final bool isSuccess;
+  final String? key;
+  final String? errorMessage;
+  LoginResponse({required this.isSuccess, this.key, this.errorMessage});
 
-class LoginResponse implements DefaultResponse {
-  @override
-  String message;
-
-  @override
-  bool statusCode;
-  SessionData? body;
-
-  LoginResponse({required this.statusCode, required this.message, this.body});
-
-  factory LoginResponse.fromJson(Map<String, dynamic> json) => LoginResponse(
-        statusCode: json['statusCode'] ?? false,
-        message: json['message'] ?? '',
-        body: json['body'] != null ? SessionData.fromJson(json['body']) : null,
+  factory LoginResponse.fromJson(Map<String, dynamic> json) {
+    if (json.containsKey('key')) {
+      return LoginResponse(
+        isSuccess: true,
+        key: json['key'],
       );
-
-  @override
-  Map<String, dynamic> toJson() => {
-        'status': statusCode,
-        'message': message,
-        'body': body != null ? body!.toJson() : {},
-      };
-}
-
-class SessionData {
-  SessionData({
-    this.key,
-  });
-
-  String? key;
-
-  factory SessionData.fromJson(Map<String, dynamic> json) => SessionData(
-        key: json['key'] ?? '',
+    } else if (json.containsKey('non_field_errors')) {
+      return LoginResponse(
+        isSuccess: false,
+        errorMessage: json['non_field_errors'][0],
       );
+    } else {
+      return LoginResponse(
+        isSuccess: false,
+        errorMessage: 'Unknown error occurred',
+      );
+    }
+  }
 
-  Map<String, dynamic> toJson() => {
-        'key': key,
+  Map<String, dynamic> toJson() {
+    if (isSuccess) {
+      return {'key': key};
+    } else {
+      return {
+        'non_field_errors': [errorMessage]
       };
+    }
+  }
 }

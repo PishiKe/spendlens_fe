@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:splendlens_fe/ui/views/authentication/login/login.dart';
+import 'package:provider/provider.dart';
+
+import 'ui/ui.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiProvider(
+    providers: [
+    ChangeNotifierProvider(create: (_) => AuthenticationViewModel()),
+    ],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {

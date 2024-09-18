@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:splendlens_fe/models/responses/login_response.dart';
 import 'package:splendlens_fe/repository/repository.dart';
-import 'package:splendlens_fe/ui/views/home/home_view.dart';
+import 'package:splendlens_fe/ui/screens/home/home_screen.dart';
 
 class AuthenticationViewModel extends ChangeNotifier {
   final AuthRepository authRepository = AuthRepositoryImp();
@@ -35,9 +36,7 @@ class AuthenticationViewModel extends ChangeNotifier {
 
     if (response != null && response.key != null) {
       _key = response.key;
-      print(_key);
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => HomeView()));
+      context.go('/');
     } else {
       // debugPrint(response?.errorMessage);
     }

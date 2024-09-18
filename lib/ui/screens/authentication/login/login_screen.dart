@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:splendlens_fe/ui/views/authentication/login/components/login_form.dart';
+import 'package:splendlens_fe/ui/screens/authentication/login/components/login_form.dart';
 
-class Login extends StatelessWidget {
-  const Login({super.key});
+class LoginScreen extends StatelessWidget {
+  const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

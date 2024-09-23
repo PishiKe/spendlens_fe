@@ -27,6 +27,9 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
+    // Initialize Dynamic Sizing
+    DeviceConfig().init(context);
+
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'SpendLens',

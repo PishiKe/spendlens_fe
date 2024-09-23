@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:splendlens_fe/models/requests/login_model.dart';
 import 'package:splendlens_fe/ui/screens/authentication/authentication_viewmodel.dart';
+import 'package:splendlens_fe/utilities/utilities.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -38,8 +39,9 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
+    print(_authenticationViewModel.status);
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: EdgeInsets.all(getProportionateScreenWidth(20)),
       child: Form(
         key: _formKey,
         child: Column(
@@ -68,21 +70,23 @@ class _LoginFormState extends State<LoginForm> {
             const SizedBox(
               height: 16.0,
             ),
-            SizedBox(
-              width: double.infinity,
-              height: 50.0,
-              child: MaterialButton(
-                color: const Color.fromARGB(255, 246, 105, 95),
-                shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(8.0))),
-                child: const Text(
-                  'Sign In',
-                  style: TextStyle(color: Colors.white),
-                ),
-                onPressed: () => handleLogin(context, _usernameController?.text,
-                    _passwordController?.text),
-              ),
-            )
+            _authenticationViewModel.isLoading
+                ? const CircularProgressIndicator()
+                : SizedBox(
+                    width: double.infinity,
+                    height: 50.0,
+                    child: MaterialButton(
+                      color: const Color.fromARGB(255, 246, 105, 95),
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(8.0))),
+                      child: const Text(
+                        'Sign In',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () => handleLogin(context,
+                          _usernameController?.text, _passwordController?.text),
+                    ),
+                  )
           ],
         ),
       ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:splendlens_fe/core/data/response/auth_response.dart';
 import 'package:splendlens_fe/models/responses/login_response.dart';
 import 'package:splendlens_fe/repository/repository.dart';
-import 'package:splendlens_fe/ui/screens/home/home_screen.dart';
 
 class AuthenticationViewModel extends ChangeNotifier {
   final AuthRepository authRepository = AuthRepositoryImp();
@@ -22,6 +22,13 @@ class AuthenticationViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  AuthStatus _status = AuthStatus.unauthenticated;
+  AuthStatus get status => _status;
+  set status(AuthStatus newStatus) {
+    _status = newStatus;
+    notifyListeners();
+  }
+
   String errorMessage = '';
 
   void handleError(BuildContext context, String message) {
@@ -35,17 +42,21 @@ class AuthenticationViewModel extends ChangeNotifier {
     notifyListeners();
 
     if (response != null && response.key != null) {
+      _status = AuthStatus.authenticated;
+      notifyListeners();
       _key = response.key;
+
       context.go('/');
     } else {
-      // debugPrint(response?.errorMessage);
+      // to handle
+      debugPrint(response?.errorMessage);
     }
   }
 
   Future<void> login(BuildContext context, Map<String, dynamic> body) async {
     _isLoading = true;
-
     loginBody = body;
+    _status = AuthStatus.authenticating;
 
     authRepository
         .login(body)

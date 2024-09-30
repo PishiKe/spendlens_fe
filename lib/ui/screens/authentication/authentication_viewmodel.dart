@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:splendlens_fe/core/data/response/auth_response.dart';
 import 'package:splendlens_fe/models/responses/login_response.dart';
 import 'package:splendlens_fe/repository/repository.dart';
@@ -37,7 +40,8 @@ class AuthenticationViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void handleSessionResponse(BuildContext context, LoginResponse? response) {
+  void handleSessionResponse(
+      BuildContext context, LoginResponse? response) async {
     _isLoading = false;
     notifyListeners();
 
@@ -47,6 +51,11 @@ class AuthenticationViewModel extends ChangeNotifier {
       _key = response.key;
 
       context.go('/');
+
+      // append key to loginbody
+      loginBody['key'] = _key;
+      debugPrint(jsonEncode(loginBody));
+      await saveUserCredentials(jsonEncode(loginBody));
     } else {
       // to handle
       debugPrint(response?.errorMessage);
@@ -62,5 +71,14 @@ class AuthenticationViewModel extends ChangeNotifier {
         .login(body)
         .then((value) => handleSessionResponse(context, value))
         .onError((error, StackTrace) => handleError(context, error.toString()));
+  }
+
+  Future saveUserCredentials(String userCredentials) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? credentials = prefs.getString('userCredentials');
+
+    if (credentials == null) {
+      await prefs.setString('userCredentials', userCredentials);
+    }
   }
 }

@@ -39,7 +39,6 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    print(_authenticationViewModel.status);
     return Padding(
       padding: EdgeInsets.all(getProportionateScreenWidth(20)),
       child: Form(

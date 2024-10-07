@@ -67,7 +67,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
               height: 190,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10), color: Colors.white),
-              child: BarChartSample5()),
+              child: HomeBarChart()),
         ),
       ],
     );

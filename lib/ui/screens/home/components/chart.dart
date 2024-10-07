@@ -1,25 +1,25 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:splendlens_fe/utilities/chart_utils.dart';
 
-class BarChartSample5 extends StatefulWidget {
-  const BarChartSample5({super.key});
+class HomeBarChart extends StatefulWidget {
+  const HomeBarChart({super.key});
 
   @override
-  State<StatefulWidget> createState() => BarChartSample5State();
+  State<StatefulWidget> createState() => HomeBarChartState();
 }
 
-class BarChartSample5State extends State<BarChartSample5> {
-  static const double barWidth = 22;
-  static const shadowOpacity = 0.2;
+class HomeBarChartState extends State<HomeBarChart> {
+  static const double barWidth = 10;
+  static const shadowOpacity = 0.6;
   static const mainItems = <int, List<double>>{
-    0: [2, 3, 2.5, 8],
-    1: [-1.8, -2.7, -3, -6.5],
-    2: [1.5, 2, 3.5, 6],
-    3: [1.5, 1.5, 4, 6.5],
-    4: [-2, -2, -5, -9],
-    5: [-1.2, -1.5, -4.3, -10],
-    6: [1.2, 4.8, 5, 5],
+    0: [2],
+    1: [-1.8],
+    2: [1.5],
+    3: [1.5],
+    4: [-2],
+    5: [-1.2],
+    6: [1.2],
+    7: [2.2],
   };
   int touchedIndex = -1;
 
@@ -29,29 +29,32 @@ class BarChartSample5State extends State<BarChartSample5> {
   }
 
   Widget bottomTitles(double value, TitleMeta meta) {
-    const style = TextStyle(color: Colors.white, fontSize: 10);
+    TextStyle style = TextStyle(color: Colors.blue.shade300, fontSize: 12);
     String text;
     switch (value.toInt()) {
       case 0:
-        text = 'Mon';
+        text = 'Jan';
         break;
       case 1:
-        text = 'Tue';
+        text = 'Feb';
         break;
       case 2:
-        text = 'Wed';
+        text = 'Mar';
         break;
       case 3:
-        text = 'Thu';
+        text = 'Apr';
         break;
       case 4:
-        text = 'Fri';
+        text = 'May';
         break;
       case 5:
-        text = 'Sat';
+        text = 'Jun';
         break;
       case 6:
-        text = 'Sun';
+        text = 'Jul';
+        break;
+      case 7:
+        text = 'Aug';
         break;
       default:
         text = '';
@@ -63,89 +66,12 @@ class BarChartSample5State extends State<BarChartSample5> {
     );
   }
 
-  Widget topTitles(double value, TitleMeta meta) {
-    const style = TextStyle(color: Colors.white, fontSize: 10);
-    String text;
-    switch (value.toInt()) {
-      case 0:
-        text = 'Mon';
-        break;
-      case 1:
-        text = 'Tue';
-        break;
-      case 2:
-        text = 'Wed';
-        break;
-      case 3:
-        text = 'Thu';
-        break;
-      case 4:
-        text = 'Fri';
-        break;
-      case 5:
-        text = 'Sat';
-        break;
-      case 6:
-        text = 'Sun';
-        break;
-      default:
-        return Container();
-    }
-    return SideTitleWidget(
-      axisSide: meta.axisSide,
-      child: Text(text, style: style),
-    );
-  }
-
-  Widget leftTitles(double value, TitleMeta meta) {
-    const style = TextStyle(color: Colors.white, fontSize: 10);
-    String text;
-    if (value == 0) {
-      text = '0';
-    } else {
-      text = '${value.toInt()}0k';
-    }
-    return SideTitleWidget(
-      angle: AppUtils().degreeToRadian(value < 0 ? -45 : 45),
-      axisSide: meta.axisSide,
-      space: 4,
-      child: Text(
-        text,
-        style: style,
-        textAlign: TextAlign.center,
-      ),
-    );
-  }
-
-  Widget rightTitles(double value, TitleMeta meta) {
-    const style = TextStyle(color: Colors.white, fontSize: 10);
-    String text;
-    if (value == 0) {
-      text = '0';
-    } else {
-      text = '${value.toInt()}0k';
-    }
-    return SideTitleWidget(
-      angle: AppUtils().degreeToRadian(90),
-      axisSide: meta.axisSide,
-      space: 0,
-      child: Text(
-        text,
-        style: style,
-        textAlign: TextAlign.center,
-      ),
-    );
-  }
-
   BarChartGroupData generateGroup(
     int x,
-    double value1,
-    double value2,
-    double value3,
-    double value4,
+    double value,
   ) {
-    final isTop = value1 > 0;
-    final sum = value1 + value2 + value3 + value4;
+    final isTop = value > 0;
+    final sum = value;
     final isTouched = touchedIndex == x;
     return BarChartGroupData(
       x: x,
@@ -167,35 +93,8 @@ class BarChartSample5State extends State<BarChartSample5> {
           rodStackItems: [
             BarChartRodStackItem(
               0,
-              value1,
-              Colors.green,
-              BorderSide(
-                color: Colors.white,
-                width: isTouched ? 2 : 0,
-              ),
-            ),
-            BarChartRodStackItem(
-              value1,
-              value1 + value2,
-              Colors.yellow,
-              BorderSide(
-                color: Colors.white,
-                width: isTouched ? 2 : 0,
-              ),
-            ),
-            BarChartRodStackItem(
-              value1 + value2,
-              value1 + value2 + value3,
-              Colors.pink,
-              BorderSide(
-                color: Colors.white,
-                width: isTouched ? 2 : 0,
-              ),
-            ),
-            BarChartRodStackItem(
-              value1 + value2 + value3,
-              value1 + value2 + value3 + value4,
-              Colors.blue,
+              value,
+              Colors.blue.shade900,
               BorderSide(
                 color: Colors.white,
                 width: isTouched ? 2 : 0,
@@ -219,29 +118,8 @@ class BarChartSample5State extends State<BarChartSample5> {
           rodStackItems: [
             BarChartRodStackItem(
               0,
-              -value1,
-              Colors.green
-                  .withOpacity(isTouched ? shadowOpacity * 2 : shadowOpacity),
-              const BorderSide(color: Colors.transparent),
-            ),
-            BarChartRodStackItem(
-              -value1,
-              -(value1 + value2),
-              Colors.yellow
-                  .withOpacity(isTouched ? shadowOpacity * 2 : shadowOpacity),
-              const BorderSide(color: Colors.transparent),
-            ),
-            BarChartRodStackItem(
-              -(value1 + value2),
-              -(value1 + value2 + value3),
-              Colors.pink
-                  .withOpacity(isTouched ? shadowOpacity * 2 : shadowOpacity),
-              const BorderSide(color: Colors.transparent),
-            ),
-            BarChartRodStackItem(
-              -(value1 + value2 + value3),
-              -(value1 + value2 + value3 + value4),
-              Colors.blue
+              -value,
+              Colors.lightBlue
                   .withOpacity(isTouched ? shadowOpacity * 2 : shadowOpacity),
               const BorderSide(color: Colors.transparent),
             ),
@@ -262,9 +140,7 @@ class BarChartSample5State extends State<BarChartSample5> {
         child: BarChart(
           BarChartData(
             alignment: BarChartAlignment.center,
-            maxY: 20,
-            minY: -20,
-            groupsSpace: 12,
+            groupsSpace: 120,
             barTouchData: BarTouchData(
               handleBuiltInTouches: false,
               touchCallback: (FlTouchEvent event, barTouchResponse) {
@@ -290,12 +166,8 @@ class BarChartSample5State extends State<BarChartSample5> {
             ),
             titlesData: FlTitlesData(
               show: true,
-              topTitles: AxisTitles(
-                sideTitles: SideTitles(
-                  showTitles: true,
-                  reservedSize: 32,
-                  getTitlesWidget: topTitles,
-                ),
+              topTitles: const AxisTitles(
+                sideTitles: SideTitles(showTitles: false),
               ),
               bottomTitles: AxisTitles(
                 sideTitles: SideTitles(
@@ -304,51 +176,16 @@ class BarChartSample5State extends State<BarChartSample5> {
                   getTitlesWidget: bottomTitles,
                 ),
               ),
-              leftTitles: AxisTitles(
-                sideTitles: SideTitles(
-                  showTitles: true,
-                  getTitlesWidget: leftTitles,
-                  interval: 5,
-                  reservedSize: 42,
-                ),
-              ),
-              rightTitles: AxisTitles(
-                sideTitles: SideTitles(
-                  showTitles: true,
-                  getTitlesWidget: rightTitles,
-                  interval: 5,
-                  reservedSize: 42,
-                ),
-              ),
             ),
-            gridData: FlGridData(
-              show: true,
-              checkToShowHorizontalLine: (value) => value % 5 == 0,
-              getDrawingHorizontalLine: (value) {
-                if (value == 0) {
-                  return FlLine(
-                    color: Colors.black.withOpacity(0.1),
-                    strokeWidth: 3,
-                  );
-                }
-                return FlLine(
-                  color: Colors.black.withOpacity(0.05),
-                  strokeWidth: 0.8,
-                );
-              },
+            gridData: const FlGridData(
+              show: false,
             ),
             borderData: FlBorderData(
               show: false,
             ),
             barGroups: mainItems.entries
                 .map(
-                  (e) => generateGroup(
-                    e.key,
-                    e.value[0],
-                    e.value[1],
-                    e.value[2],
-                    e.value[3],
-                  ),
+                  (e) => generateGroup(e.key, e.value[0]),
                 )
                 .toList(),
           ),

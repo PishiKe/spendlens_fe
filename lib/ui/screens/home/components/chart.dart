@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:splendlens_fe/utilities/chart_utils.dart';
 
 class HomeBarChart extends StatefulWidget {
   const HomeBarChart({super.key});
@@ -174,6 +175,20 @@ class HomeBarChartState extends State<HomeBarChart> {
                   showTitles: true,
                   reservedSize: 32,
                   getTitlesWidget: bottomTitles,
+                ),
+              ),
+              leftTitles: const AxisTitles(
+                sideTitles: SideTitles(
+                  showTitles: false,
+                  interval: 5,
+                  reservedSize: 42,
+                ),
+              ),
+              rightTitles: const AxisTitles(
+                sideTitles: SideTitles(
+                  showTitles: false,
+                  interval: 5,
+                  reservedSize: 42,
                 ),
               ),
             ),

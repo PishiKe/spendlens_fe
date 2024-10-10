@@ -9,9 +9,8 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: const BottomNavbar(),
       appBar: AppBar(
-        backgroundColor: Colors.blue.shade900,
+        backgroundColor: AppTheme().darkBlue,
         centerTitle: false,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,6 +38,18 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
       body: const HomeScreenBody(),
+      bottomNavigationBar: const BottomNavbar(),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: AppTheme().lightBlue,
+        shape: const CircleBorder(),
+        elevation: 0,
+        child: Icon(
+          Icons.add,
+          color: AppTheme().white,
+        ),
+        onPressed: () {},
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }

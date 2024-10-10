@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:splendlens_fe/ui/screens/authentication/login/components/login_form.dart';
+import 'package:splendlens_fe/ui/screens/authentication/authentication.dart';
+import 'package:splendlens_fe/utilities/utilities.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -26,15 +27,15 @@ class LoginScreen extends StatelessWidget {
               const SizedBox(
                 height: 32.0,
               ),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Divider(
                     height: 8.0,
                     thickness: 1,
-                    color: Colors.black,
+                    color: AppTheme().black,
                   ),
-                  Text('Or continue with'),
+                  // const Text('Or continue with'),
                 ],
               ),
             ],

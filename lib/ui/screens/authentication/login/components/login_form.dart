@@ -75,12 +75,12 @@ class _LoginFormState extends State<LoginForm> {
                     width: double.infinity,
                     height: 50.0,
                     child: MaterialButton(
-                      color: const Color.fromARGB(255, 246, 105, 95),
+                      color: AppTheme().blue,
                       shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(8.0))),
-                      child: const Text(
+                      child: Text(
                         'Sign In',
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: AppTheme().white),
                       ),
                       onPressed: () => handleLogin(context,
                           _usernameController?.text, _passwordController?.text),

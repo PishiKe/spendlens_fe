@@ -1,6 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:splendlens_fe/utilities/chart_utils.dart';
+import 'package:splendlens_fe/utilities/theme/app_theme.dart';
 
 class HomeBarChart extends StatefulWidget {
   const HomeBarChart({super.key});
@@ -30,7 +30,7 @@ class HomeBarChartState extends State<HomeBarChart> {
   }
 
   Widget bottomTitles(double value, TitleMeta meta) {
-    TextStyle style = TextStyle(color: Colors.blue.shade300, fontSize: 12);
+    TextStyle style = TextStyle(color: AppTheme().lightBlue, fontSize: 12);
     String text;
     switch (value.toInt()) {
       case 0:

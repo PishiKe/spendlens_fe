@@ -22,7 +22,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
             width: DeviceConfig.screenWidth,
             height: DeviceConfig.screenHeight,
             alignment: Alignment.topCenter,
-            decoration: BoxDecoration(color: Colors.blue.shade900),
+            decoration: BoxDecoration(color: AppTheme().darkBlue),
             child: Container(
               child: ListTile(
                 leading: SvgPicture.asset(AppConstants().walletIcon),
@@ -38,7 +38,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                   height: 40.0,
                   child: MaterialButton(
                     elevation: 0,
-                    color: Colors.blue.shade800,
+                    color: AppTheme().blue,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(24.0)),
                     onPressed: () {},
@@ -94,7 +94,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                   Expanded(
                     child: TabBarView(children: [
                       Container(
-                        color: Colors.grey.shade100,
+                        color: AppTheme().lightGrey,
                         child: Padding(
                           padding: EdgeInsets.only(
                             left: getProportionateScreenWidth(12),
@@ -103,10 +103,10 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                           ),
                           child: ListView.builder(
                             itemCount: 5,
-                            itemBuilder: (context, index) => const Card(
-                              color: Colors.white,
+                            itemBuilder: (context, index) => Card(
+                              color: AppTheme().white,
                               elevation: 0,
-                              child: ListTile(
+                              child: const ListTile(
                                 leading: Icon(Icons.sell_rounded),
                                 title: Text('Food & Bevereges'),
                                 subtitle: Text('Sarova mombasa'),

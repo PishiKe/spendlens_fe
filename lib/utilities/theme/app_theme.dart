@@ -41,5 +41,26 @@ class AppTheme implements BaseTheme {
 
   @override
   TextStyle get whiteNormallineStyle =>
-      TextStyle(fontSize: 12, color: Colors.white);
+      const TextStyle(fontSize: 12, color: Colors.white);
+
+  @override
+  Color get darkBlue => Colors.blue.shade900;
+
+  @override
+  Color get darkGrey => const Color(0xFF696969);
+
+  @override
+  Color get lightBlue => Colors.blue.shade300;
+
+  @override
+  Color get white => Colors.white;
+
+  @override
+  Color get black => Colors.black;
+  @override
+  Color get lightGrey => Colors.grey.shade200;
+
+  @override
+  Color get blue => Colors.blue.shade800;
+  
 }

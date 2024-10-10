@@ -13,4 +13,13 @@ abstract class BaseTheme {
   TextStyle get whiteBoldHeadlineStyle;
   TextStyle get whiteSubheadlineStyle;
   TextStyle get whiteNormallineStyle;
+
+  // Colors
+  Color get white;
+  Color get black;
+  Color get lightGrey;
+  Color get darkGrey;
+  Color get lightBlue;
+  Color get blue;
+  Color get darkBlue;
 }

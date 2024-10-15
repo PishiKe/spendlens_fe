@@ -10,14 +10,6 @@ class BottomNavbar extends StatefulWidget {
 }
 
 class _BottomNavbarState extends State<BottomNavbar> {
-  int _selectedIndex = 0;
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
@@ -31,11 +23,11 @@ class _BottomNavbarState extends State<BottomNavbar> {
             children: [
               CustomIconButton(
                   height: 30, icon: 'assets/icons/home.svg', onTap: () {}),
-              Text('Home')
+              const Text('Home')
             ],
           ),
           Container(
-            margin: EdgeInsets.only(right: 16.0),
+            margin: const EdgeInsets.only(right: 16.0),
             child: Column(
               children: [
                 CustomIconButton(
@@ -43,7 +35,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
                   icon: 'assets/icons/goals.svg',
                   onTap: () {},
                 ),
-                Text('Goals')
+                const Text('Goals')
               ],
             ),
           ),
@@ -55,7 +47,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
                     height: 25,
                     icon: 'assets/icons/round_arrow.svg',
                     onTap: () {}),
-                Text('Recurring')
+                const Text('Recurring')
               ],
             ),
           ),
@@ -63,7 +55,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
             children: [
               CustomIconButton(
                   height: 30, icon: 'assets/icons/burger.svg', onTap: () {}),
-              Text('More')
+              const Text('More')
             ],
           )
         ],

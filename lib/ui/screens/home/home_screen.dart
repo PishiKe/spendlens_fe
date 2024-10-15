@@ -47,7 +47,39 @@ class HomeScreen extends StatelessWidget {
           Icons.add,
           color: AppTheme().white,
         ),
-        onPressed: () {},
+        onPressed: () {
+          DateTime now = DateTime.now();
+          DateTime date = DateTime(now.year, now.month, now.day);
+          showModalBottomSheet(
+              context: context,
+              builder: (BuildContext context) {
+                return SizedBox.expand(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        const Text('Add new expense'),
+                        const Text('Choose Category'),
+                        Form(
+                            child: Column(
+                          children: [
+                            TextFormField(
+                              keyboardType: TextInputType.number,
+                              decoration: const InputDecoration(
+                                  label: Text('TOTAL AMOUNT'),
+                                  border: InputBorder.none),
+                            ),
+                            InputDatePickerFormField(
+                                firstDate: date, lastDate: date),
+                            CustomButton(onPressed: () {}, text: 'Add')
+                          ],
+                        ))
+                      ],
+                    ),
+                  ),
+                );
+              });
+        },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );

@@ -14,7 +14,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      initialIndex: 1,
+      initialIndex: 0,
       length: 3,
       child: Stack(
         children: <Widget>[
@@ -62,7 +62,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
             top: getProportionateScreenHeight(90),
             width: DeviceConfig.screenWidth,
             child: Container(
-                padding: EdgeInsets.only(top: 30),
+                padding: const EdgeInsets.only(top: 30),
                 margin: EdgeInsets.symmetric(
                   horizontal: getProportionateScreenWidth(24),
                 ),
@@ -70,7 +70,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     color: Colors.white),
-                child: HomeBarChart()),
+                child: const HomeBarChart()),
           ),
           Positioned(
               bottom: 0,
@@ -116,10 +116,10 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                           ),
                         ),
                       ),
-                      Center(
+                      const Center(
                         child: Text('Feb'),
                       ),
-                      Center(
+                      const Center(
                         child: Text('Mar'),
                       ),
                     ]),

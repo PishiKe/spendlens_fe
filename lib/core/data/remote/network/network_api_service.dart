@@ -47,4 +47,33 @@ class NetworkApiService extends BaseApiService {
       throw FetchDataException('No Internet Connection');
     }
   }
+
+  @override
+  Future createExpense(String url, Map<String, dynamic> body) async {
+    try {
+      final response = await http.post(
+        Uri.parse(baseUrl + url),
+        body: json.encode(body),
+        headers: {..._allowedHeaders},
+      );
+
+      return returnResponse(response);
+    } on SocketException {
+      throw FetchDataException();
+    }
+  }
+
+  @override
+  Future getUser(String url, String key) async {
+    try {
+      final response = await http.get(
+        Uri.parse(baseUrl + url),
+        headers: {..._allowedHeaders, 'Authorization': 'Token $key'},
+      );
+
+      return returnResponse(response);
+    } on SocketException {
+      throw FetchDataException();
+    }
+  }
 }

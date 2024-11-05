@@ -1,27 +1,22 @@
+import 'ui/screens/screens.dart';
+import 'core/routes/app_routes.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:splendlens_fe/ui/screens/home/home_screen.dart';
+import 'package:provider/single_child_widget.dart';
 import 'package:splendlens_fe/utilities/utilities.dart';
-
-import 'ui/ui.dart';
+import 'package:splendlens_fe/ui/screens/home/home_view_model.dart';
 
 void main() {
+  final List<SingleChildWidget> providers = [
+    ChangeNotifierProvider(create: (_) => AuthenticationViewModel()),
+    ChangeNotifierProvider(create: (_) => HomeViewModel())
+  ];
+
   runApp(MultiProvider(
-    providers: [
-      ChangeNotifierProvider(create: (_) => AuthenticationViewModel()),
-    ],
+    providers: providers,
     child: const MyApp(),
   ));
 }
-
-final _router = GoRouter(initialLocation: '/login', routes: [
-  GoRoute(path: '/', builder: (context, state) => const HomeScreen()),
-  GoRoute(
-    path: '/login',
-    builder: (context, state) => const LoginScreen(),
-  )
-]);
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -32,9 +27,8 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      title: 'SpendLens',
       theme: AppTheme().appTheme,
-      routerConfig: _router,
+      routerConfig: AppRoutes.router,
     );
   }
 }

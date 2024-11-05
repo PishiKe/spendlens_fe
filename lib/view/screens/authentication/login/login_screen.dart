@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:splendlens_fe/ui/screens/authentication/authentication.dart';
+import 'package:splendlens_fe/view/screens/authentication/authentication.dart';
 import 'package:splendlens_fe/utilities/utilities.dart';
 
 class LoginScreen extends StatelessWidget {

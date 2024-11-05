@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:splendlens_fe/ui/ui.dart';
+import 'package:splendlens_fe/view/view.dart';
 import 'package:splendlens_fe/utilities/utilities.dart';
 
 class BottomNavbar extends StatefulWidget {

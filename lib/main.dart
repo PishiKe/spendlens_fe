@@ -1,10 +1,9 @@
-import 'ui/screens/screens.dart';
 import 'core/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:splendlens_fe/utilities/utilities.dart';
-import 'package:splendlens_fe/ui/screens/home/home_view_model.dart';
+import 'package:splendlens_fe/viewmodel/viewmodel.dart';
 
 void main() {
   final List<SingleChildWidget> providers = [

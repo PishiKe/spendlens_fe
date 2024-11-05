@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:splendlens_fe/models/requests/login_model.dart';
-import 'package:splendlens_fe/ui/screens/authentication/authentication_viewmodel.dart';
+import 'package:splendlens_fe/viewmodel/authentication_viewmodel.dart';
 import 'package:splendlens_fe/utilities/utilities.dart';
 
 class LoginForm extends StatefulWidget {

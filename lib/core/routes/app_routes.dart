@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:splendlens_fe/ui/ui.dart';
+import 'package:splendlens_fe/view/view.dart';
 part './app_screens.dart';
 
 class AppRoutes {

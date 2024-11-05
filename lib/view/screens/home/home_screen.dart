@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:splendlens_fe/ui/ui.dart';
+import 'package:splendlens_fe/view/view.dart';
 import 'package:splendlens_fe/utilities/utilities.dart';
+import 'package:splendlens_fe/viewmodel/viewmodel.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -35,10 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _authenticationViewModel = context.read<AuthenticationViewModel>();
-    key = _authenticationViewModel?.key;
-    debugPrint('home $key');
   }
-
 
   @override
   Widget build(BuildContext context) {

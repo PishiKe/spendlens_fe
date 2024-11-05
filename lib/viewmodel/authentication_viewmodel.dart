@@ -40,18 +40,6 @@ class AuthenticationViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  // String? _key;
-  // String? get key => _key;
-  // set key(String? newKey) {
-  //   _key = newKey;
-  //   print(_key);
-  //   notifyListeners();
-  // }
-  String? key;
-  setKey(String key){
-
-  }
-
   void handleError(BuildContext context, String message) {
     final snackBar = SnackBar(
       elevation: 0,
@@ -79,17 +67,15 @@ class AuthenticationViewModel with ChangeNotifier {
     if (response != null && response.key != null) {
       _status = AuthStatus.authenticated;
       notifyListeners();
-      key = response.key;
 
-      debugPrint(response.key.toString());
+      saveAuthKey(response.key!.toString());
 
       context.go('/');
-      await saveAuthKey(key!);
     } else {
       final snackBar = SnackBar(
         elevation: 0,
         behavior: SnackBarBehavior.floating,
-        backgroundColor: Colors.transparent,
+        backgroundColor: const Color.fromARGB(0, 91, 82, 82),
         content: AwesomeSnackbarContent(
           title: '',
           message: '${response!.errorMessage}',
@@ -126,13 +112,10 @@ class AuthenticationViewModel with ChangeNotifier {
         .user(key)
         .then((value) => handleUserReponse(context, value));
   }
-}
 
-Future saveAuthKey(String key) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  // String? credentials = prefs.getString('key');
-
-  // if (credentials == null) {
-  await prefs.setString('key', key);
-  // }
+  Future saveAuthKey(String key) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('key', key);
+    notifyListeners();
+  }
 }

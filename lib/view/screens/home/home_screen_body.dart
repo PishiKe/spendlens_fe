@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:splendlens_fe/ui/screens/home/home.dart';
+import 'package:splendlens_fe/view/screens/home/home.dart';
 import 'package:splendlens_fe/utilities/utilities.dart';
 
 class HomeScreenBody extends StatefulWidget {

@@ -1,28 +1,19 @@
-import 'dart:convert';
-
-import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:splendlens_fe/core/data/response/auth_response.dart';
-import 'package:splendlens_fe/models/responses/login_response.dart';
 import 'package:splendlens_fe/repository/repository.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:splendlens_fe/models/responses/responses.dart';
+import 'package:splendlens_fe/core/data/response/auth_response.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 
-class AuthenticationViewModel extends ChangeNotifier {
-  final AuthRepository authRepository = AuthRepositoryImp();
+class AuthenticationViewModel with ChangeNotifier {
+  final _authRepository = AuthRepositoryImp();
   dynamic loginBody;
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
   set isLoading(bool newLoading) {
     _isLoading = newLoading;
-    notifyListeners();
-  }
-
-  String? _key;
-  String get key => _key!;
-  set key(String? newKey) {
-    _key = newKey;
     notifyListeners();
   }
 
@@ -34,6 +25,32 @@ class AuthenticationViewModel extends ChangeNotifier {
   }
 
   String errorMessage = '';
+
+  UserResponse? _user;
+  UserResponse? get user => _user;
+  set user(UserResponse? newUser) {
+    _user = newUser;
+    notifyListeners();
+  }
+
+  String? _firstName;
+  String get firstName => _firstName ?? '';
+  set firstName(String? newFirstName) {
+    _firstName = newFirstName;
+    notifyListeners();
+  }
+
+  // String? _key;
+  // String? get key => _key;
+  // set key(String? newKey) {
+  //   _key = newKey;
+  //   print(_key);
+  //   notifyListeners();
+  // }
+  String? key;
+  setKey(String key){
+
+  }
 
   void handleError(BuildContext context, String message) {
     final snackBar = SnackBar(
@@ -62,14 +79,12 @@ class AuthenticationViewModel extends ChangeNotifier {
     if (response != null && response.key != null) {
       _status = AuthStatus.authenticated;
       notifyListeners();
-      _key = response.key;
+      key = response.key;
+
+      debugPrint(response.key.toString());
 
       context.go('/');
-
-      // append key to loginbody
-      loginBody['key'] = _key;
-      debugPrint(jsonEncode(loginBody));
-      await saveUserCredentials(jsonEncode(loginBody));
+      await saveAuthKey(key!);
     } else {
       final snackBar = SnackBar(
         elevation: 0,
@@ -93,18 +108,31 @@ class AuthenticationViewModel extends ChangeNotifier {
     loginBody = body;
     _status = AuthStatus.authenticating;
 
-    authRepository
+    _authRepository
         .login(body)
         .then((value) => handleSessionResponse(context, value))
         .onError((error, StackTrace) => handleError(context, error.toString()));
   }
 
-  Future saveUserCredentials(String userCredentials) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? credentials = prefs.getString('userCredentials');
-
-    if (credentials == null) {
-      await prefs.setString('userCredentials', userCredentials);
+  void handleUserReponse(BuildContext context, UserResponse? response) {
+    if (response != null) {
+      user = response;
+      firstName = response.username;
     }
   }
+
+  Future<void> getUser(BuildContext context, String? key) async {
+    return _authRepository
+        .user(key)
+        .then((value) => handleUserReponse(context, value));
+  }
+}
+
+Future saveAuthKey(String key) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  // String? credentials = prefs.getString('key');
+
+  // if (credentials == null) {
+  await prefs.setString('key', key);
+  // }
 }

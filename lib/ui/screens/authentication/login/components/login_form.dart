@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:splendlens_fe/models/requests/login_model.dart';
 import 'package:splendlens_fe/ui/screens/authentication/authentication_viewmodel.dart';
 import 'package:splendlens_fe/utilities/utilities.dart';
@@ -39,6 +40,9 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = context.watch<AuthenticationViewModel>();
+    print('ViewModel in login ${context.runtimeType}: ${viewModel.hashCode}');
+
     return Padding(
       padding: EdgeInsets.all(getProportionateScreenWidth(20)),
       child: Form(

@@ -1,10 +1,44 @@
 import 'package:flutter/material.dart';
-import 'package:splendlens_fe/ui/global/global.dart';
-import 'package:splendlens_fe/ui/screens/home/home.dart';
+import 'package:provider/provider.dart';
+import 'package:splendlens_fe/ui/ui.dart';
 import 'package:splendlens_fe/utilities/utilities.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  AuthenticationViewModel? _authenticationViewModel;
+  String? key;
+
+  Column title() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          key ?? '',
+          // 'Hello _authenticationViewModel?.key}',
+          style: AppTheme().whiteBoldHeadlineStyle,
+        ),
+        Text(
+          'Good morning',
+          style: AppTheme().whiteSubheadlineStyle,
+        )
+      ],
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _authenticationViewModel = context.read<AuthenticationViewModel>();
+    key = _authenticationViewModel?.key;
+    debugPrint('home $key');
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -12,19 +46,11 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppTheme().darkBlue,
         centerTitle: false,
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Hi Oz,',
-              style: AppTheme().whiteBoldHeadlineStyle,
-            ),
-            Text(
-              'Good morning',
-              style: AppTheme().whiteSubheadlineStyle,
-            )
-          ],
-        ),
+        title: title(),
+        // title: Text(
+        //   'Hello ${_homeViewModel?.firstName}',
+        //   style: AppTheme().whiteBoldHeadlineStyle,
+        // ),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 16.0),

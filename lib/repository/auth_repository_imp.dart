@@ -1,5 +1,6 @@
 import 'package:splendlens_fe/core/data/data.dart';
 import 'package:splendlens_fe/models/responses/login_response.dart';
+import 'package:splendlens_fe/models/responses/user_response.dart';
 import 'package:splendlens_fe/repository/auth_repository.dart';
 
 class AuthRepositoryImp implements AuthRepository {
@@ -22,6 +23,17 @@ class AuthRepositoryImp implements AuthRepository {
     } catch (e) {
       print('Error during login: $e');
       rethrow; // Re-throw the exception to be handled elsewhere
+    }
+  }
+
+  @override
+  Future<UserResponse?> user(String? key) async {
+    try {
+      dynamic response = await _apiService.getUser(ApiEndpoints().user, key!);
+
+      return UserResponse.fromJson(response);
+    } catch (e) {
+      rethrow;
     }
   }
 }

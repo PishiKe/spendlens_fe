@@ -118,4 +118,9 @@ class AuthenticationViewModel with ChangeNotifier {
     prefs.setString('key', key);
     notifyListeners();
   }
+
+  Future<String> getKey() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('key') ?? '';
+  }
 }

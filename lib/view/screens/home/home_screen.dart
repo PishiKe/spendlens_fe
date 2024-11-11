@@ -12,16 +12,16 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  AuthenticationViewModel? _authenticationViewModel;
-  String? key;
+  AuthenticationViewModel _authenticationViewModel = AuthenticationViewModel();
+  HomeViewModel _homeViewModel = HomeViewModel();
+  String? firstName;
 
   Column title() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          key ?? '',
-          // 'Hello _authenticationViewModel?.key}',
+          firstName!,
           style: AppTheme().whiteBoldHeadlineStyle,
         ),
         Text(
@@ -34,8 +34,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
+    // _authenticationViewModel = context.read<AuthenticationViewModel>();
+    _homeViewModel = context.read<HomeViewModel>();
+    _homeViewModel.getUser(context);
+    firstName = _homeViewModel.firstName;
     super.initState();
-    _authenticationViewModel = context.read<AuthenticationViewModel>();
   }
 
   @override
@@ -45,10 +48,6 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: AppTheme().darkBlue,
         centerTitle: false,
         title: title(),
-        // title: Text(
-        //   'Hello ${_homeViewModel?.firstName}',
-        //   style: AppTheme().whiteBoldHeadlineStyle,
-        // ),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 16.0),

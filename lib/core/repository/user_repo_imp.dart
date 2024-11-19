@@ -1,6 +1,6 @@
 import 'package:splendlens_fe/core/data/data.dart';
-import 'package:splendlens_fe/repository/repository.dart';
-import 'package:splendlens_fe/models/responses/user_response.dart';
+import 'package:splendlens_fe/core/repository/repository.dart';
+import 'package:splendlens_fe/core/models/responses/user_response.dart';
 
 class UserRepositoryImp implements UserRepository {
   final BaseApiService _apiService = NetworkApiService();

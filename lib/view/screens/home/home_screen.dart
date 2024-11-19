@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:splendlens_fe/view/view.dart';
-import 'package:splendlens_fe/utilities/utilities.dart';
+import 'package:splendlens_fe/core/utilities/utilities.dart';
 import 'package:splendlens_fe/viewmodel/viewmodel.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -13,22 +13,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   HomeViewModel _homeViewModel = HomeViewModel();
-
-  // Column title() {
-  //   return Column(
-  //     crossAxisAlignment: CrossAxisAlignment.start,
-  //     children: [
-  //       Text(
-  //         _homeViewModel.username,
-  //         style: AppTheme().whiteBoldHeadlineStyle,
-  //       ),
-  //       Text(
-  //         'Good morning',
-  //         style: AppTheme().whiteSubheadlineStyle,
-  //       )
-  //     ],
-  //   );
-  // }
+  TextEditingController amountController = TextEditingController();
 
   @override
   void initState() {
@@ -39,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<HomeViewModel>(builder: (context, _homeViewModel, child) {
+    return Consumer<HomeViewModel>(builder: (context, homeViewModel, child) {
       return Scaffold(
         appBar: AppBar(
           backgroundColor: AppTheme().darkBlue,
@@ -48,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                _homeViewModel.username ?? '',
+                homeViewModel.username ?? '',
                 style: AppTheme().whiteBoldHeadlineStyle,
               ),
               Text(
@@ -97,12 +82,14 @@ class _HomeScreenState extends State<HomeScreen> {
                             children: [
                               TextFormField(
                                 keyboardType: TextInputType.number,
+                                controller: amountController,
                                 decoration: const InputDecoration(
                                     label: Text('TOTAL AMOUNT'),
                                     border: InputBorder.none),
                               ),
                               InputDatePickerFormField(
                                   firstDate: date, lastDate: date),
+                                  
                               CustomButton(onPressed: () {}, text: 'Add')
                             ],
                           ))

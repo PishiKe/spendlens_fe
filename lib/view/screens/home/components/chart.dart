@@ -1,6 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:splendlens_fe/utilities/theme/app_theme.dart';
+import 'package:splendlens_fe/core/utilities/theme/app_theme.dart';
 
 class HomeBarChart extends StatefulWidget {
   const HomeBarChart({super.key});

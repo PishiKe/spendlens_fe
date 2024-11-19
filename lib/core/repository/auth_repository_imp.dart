@@ -1,7 +1,7 @@
 import 'package:splendlens_fe/core/data/data.dart';
-import 'package:splendlens_fe/models/responses/login_response.dart';
-import 'package:splendlens_fe/models/responses/user_response.dart';
-import 'package:splendlens_fe/repository/auth_repository.dart';
+import 'package:splendlens_fe/core/models/responses/login_response.dart';
+import 'package:splendlens_fe/core/models/responses/user_response.dart';
+import 'package:splendlens_fe/core/repository/auth_repository.dart';
 
 class AuthRepositoryImp implements AuthRepository {
   final BaseApiService _apiService = NetworkApiService();

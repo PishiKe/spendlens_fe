@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:splendlens_fe/models/requests/login_model.dart';
+import 'package:splendlens_fe/core/models/requests/login_model.dart';
 import 'package:splendlens_fe/viewmodel/authentication_viewmodel.dart';
-import 'package:splendlens_fe/utilities/utilities.dart';
+import 'package:splendlens_fe/core/utilities/utilities.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -40,9 +40,6 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = context.watch<AuthenticationViewModel>();
-    print('ViewModel in login ${context.runtimeType}: ${viewModel.hashCode}');
-
     return Padding(
       padding: EdgeInsets.all(getProportionateScreenWidth(20)),
       child: Form(

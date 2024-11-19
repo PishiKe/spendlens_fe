@@ -1,18 +1,14 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
-import 'package:splendlens_fe/models/responses/responses.dart';
-import 'package:splendlens_fe/repository/repository.dart';
-import 'package:splendlens_fe/utilities/shared_prefs_utils.dart';
+import 'package:splendlens_fe/core/models/responses/responses.dart';
+import 'package:splendlens_fe/core/repository/repository.dart';
+import 'package:splendlens_fe/core/utilities/shared_prefs_utils.dart';
 
 class HomeViewModel with ChangeNotifier {
   final _userRepository = UserRepositoryImp();
 
   String? _username;
   String? get username => _username;
-  set username(String? newValue) {
-    _username = newValue;
-    notifyListeners();
-  }
 
   String? _firstName;
   String get firstName => _firstName!;
@@ -50,6 +46,7 @@ class HomeViewModel with ChangeNotifier {
   void handleUserReponse(BuildContext context, UserResponse? response) {
     if (response != null) {
       _username = response.username;
+      notifyListeners();
     }
     _isLoading = false;
     notifyListeners();
@@ -64,6 +61,10 @@ class HomeViewModel with ChangeNotifier {
     return _userRepository
         .getUser(key)
         .then((value) => handleUserReponse(context, value))
-        .onError((error, StackTrace) => handleError(context, error.toString()));
+        .onError((error, stackTrace) => handleError(context, error.toString()));
+  }
+
+  Future? addExpense (){
+    return null;
   }
 }

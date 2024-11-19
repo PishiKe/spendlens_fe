@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:splendlens_fe/repository/repository.dart';
+import 'package:splendlens_fe/core/repository/repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:splendlens_fe/models/responses/responses.dart';
+import 'package:splendlens_fe/core/models/responses/responses.dart';
 import 'package:splendlens_fe/core/data/response/auth_response.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 
@@ -28,17 +28,9 @@ class AuthenticationViewModel with ChangeNotifier {
 
   UserResponse? _user;
   UserResponse? get user => _user;
-  set user(UserResponse? newUser) {
-    _user = newUser;
-    notifyListeners();
-  }
 
   String? _firstName;
-  String get firstName => _firstName ?? '';
-  set firstName(String? newFirstName) {
-    _firstName = newFirstName;
-    notifyListeners();
-  }
+  String? get firstName => _firstName;
 
   void handleError(BuildContext context, String message) {
     final snackBar = SnackBar(
@@ -67,9 +59,8 @@ class AuthenticationViewModel with ChangeNotifier {
     if (response != null && response.key != null) {
       _status = AuthStatus.authenticated;
       notifyListeners();
-
+      // await getUser(context, response.key);
       saveAuthKey(response.key!.toString());
-
       context.go('/');
     } else {
       final snackBar = SnackBar(
@@ -97,13 +88,14 @@ class AuthenticationViewModel with ChangeNotifier {
     _authRepository
         .login(body)
         .then((value) => handleSessionResponse(context, value))
-        .onError((error, StackTrace) => handleError(context, error.toString()));
+        .onError((error, stackTrace) => handleError(context, error.toString()));
   }
 
   void handleUserReponse(BuildContext context, UserResponse? response) {
     if (response != null) {
-      user = response;
-      firstName = response.username;
+      _user = response;
+      _firstName = response.username;
+      notifyListeners();
     }
   }
 

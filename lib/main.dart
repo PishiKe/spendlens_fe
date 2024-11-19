@@ -2,7 +2,7 @@ import 'core/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
-import 'package:splendlens_fe/utilities/utilities.dart';
+import 'package:splendlens_fe/core/utilities/utilities.dart';
 import 'package:splendlens_fe/viewmodel/viewmodel.dart';
 
 void main() {

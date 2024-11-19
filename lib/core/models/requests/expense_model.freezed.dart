@@ -26,6 +26,8 @@ mixin _$Expense {
   String? get description => throw _privateConstructorUsedError;
   @JsonKey(name: "amount")
   int? get amount => throw _privateConstructorUsedError;
+  @JsonKey(name: "user")
+  int? get user => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -40,7 +42,8 @@ abstract class $ExpenseCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: "name") String? name,
       @JsonKey(name: "description") String? description,
-      @JsonKey(name: "amount") int? amount});
+      @JsonKey(name: "amount") int? amount,
+      @JsonKey(name: "user") int? user});
 }
 
 /// @nodoc
@@ -59,6 +62,7 @@ class _$ExpenseCopyWithImpl<$Res, $Val extends Expense>
     Object? name = freezed,
     Object? description = freezed,
     Object? amount = freezed,
+    Object? user = freezed,
   }) {
     return _then(_value.copyWith(
       name: freezed == name
@@ -72,6 +76,10 @@ class _$ExpenseCopyWithImpl<$Res, $Val extends Expense>
       amount: freezed == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      user: freezed == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
               as int?,
     ) as $Val);
   }
@@ -87,7 +95,8 @@ abstract class _$$ExpenseImplCopyWith<$Res> implements $ExpenseCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: "name") String? name,
       @JsonKey(name: "description") String? description,
-      @JsonKey(name: "amount") int? amount});
+      @JsonKey(name: "amount") int? amount,
+      @JsonKey(name: "user") int? user});
 }
 
 /// @nodoc
@@ -104,6 +113,7 @@ class __$$ExpenseImplCopyWithImpl<$Res>
     Object? name = freezed,
     Object? description = freezed,
     Object? amount = freezed,
+    Object? user = freezed,
   }) {
     return _then(_$ExpenseImpl(
       name: freezed == name
@@ -118,6 +128,10 @@ class __$$ExpenseImplCopyWithImpl<$Res>
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as int?,
+      user: freezed == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -128,7 +142,8 @@ class _$ExpenseImpl implements _Expense {
   const _$ExpenseImpl(
       {@JsonKey(name: "name") this.name,
       @JsonKey(name: "description") this.description,
-      @JsonKey(name: "amount") this.amount});
+      @JsonKey(name: "amount") this.amount,
+      @JsonKey(name: "user") this.user});
 
   factory _$ExpenseImpl.fromJson(Map<String, dynamic> json) =>
       _$$ExpenseImplFromJson(json);
@@ -142,10 +157,13 @@ class _$ExpenseImpl implements _Expense {
   @override
   @JsonKey(name: "amount")
   final int? amount;
+  @override
+  @JsonKey(name: "user")
+  final int? user;
 
   @override
   String toString() {
-    return 'Expense(name: $name, description: $description, amount: $amount)';
+    return 'Expense(name: $name, description: $description, amount: $amount, user: $user)';
   }
 
   @override
@@ -156,12 +174,13 @@ class _$ExpenseImpl implements _Expense {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.description, description) ||
                 other.description == description) &&
-            (identical(other.amount, amount) || other.amount == amount));
+            (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.user, user) || other.user == user));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, name, description, amount);
+  int get hashCode => Object.hash(runtimeType, name, description, amount, user);
 
   @JsonKey(ignore: true)
   @override
@@ -181,7 +200,8 @@ abstract class _Expense implements Expense {
   const factory _Expense(
       {@JsonKey(name: "name") final String? name,
       @JsonKey(name: "description") final String? description,
-      @JsonKey(name: "amount") final int? amount}) = _$ExpenseImpl;
+      @JsonKey(name: "amount") final int? amount,
+      @JsonKey(name: "user") final int? user}) = _$ExpenseImpl;
 
   factory _Expense.fromJson(Map<String, dynamic> json) = _$ExpenseImpl.fromJson;
 
@@ -194,6 +214,9 @@ abstract class _Expense implements Expense {
   @override
   @JsonKey(name: "amount")
   int? get amount;
+  @override
+  @JsonKey(name: "user")
+  int? get user;
   @override
   @JsonKey(ignore: true)
   _$$ExpenseImplCopyWith<_$ExpenseImpl> get copyWith =>

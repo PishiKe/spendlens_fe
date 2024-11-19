@@ -14,6 +14,8 @@ class Expense with _$Expense {
         String? description,
         @JsonKey(name: "amount")
         int? amount,
+        @JsonKey(name: "user")
+        int? user
     }) = _Expense;
 
     factory Expense.fromJson(Map<String, dynamic> json) => _$ExpenseFromJson(json);

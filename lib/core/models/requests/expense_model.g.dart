@@ -11,6 +11,7 @@ _$ExpenseImpl _$$ExpenseImplFromJson(Map<String, dynamic> json) =>
       name: json['name'] as String?,
       description: json['description'] as String?,
       amount: (json['amount'] as num?)?.toInt(),
+      user: (json['user'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$ExpenseImplToJson(_$ExpenseImpl instance) =>
@@ -18,4 +19,5 @@ Map<String, dynamic> _$$ExpenseImplToJson(_$ExpenseImpl instance) =>
       'name': instance.name,
       'description': instance.description,
       'amount': instance.amount,
+      'user': instance.user,
     };

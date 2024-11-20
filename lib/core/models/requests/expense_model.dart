@@ -7,16 +7,16 @@ part 'expense_model.g.dart';
 
 @freezed
 class Expense with _$Expense {
-    const factory Expense({
-        @JsonKey(name: "name")
-        String? name,
-        @JsonKey(name: "description")
-        String? description,
-        @JsonKey(name: "amount")
-        int? amount,
-        @JsonKey(name: "user")
-        int? user
-    }) = _Expense;
+  const factory Expense({
+    @JsonKey(name: "id") int? id,
+    @JsonKey(name: "name") String? name,
+    @JsonKey(name: "description") String? description,
+    @JsonKey(name: "date") DateTime? date,
+    @JsonKey(name: "amount") int? amount,
+    @JsonKey(name: "currency") dynamic currency,
+    @JsonKey(name: "user") int? user,
+  }) = _Expense;
 
-    factory Expense.fromJson(Map<String, dynamic> json) => _$ExpenseFromJson(json);
+  factory Expense.fromJson(Map<String, dynamic> json) =>
+      _$ExpenseFromJson(json);
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:splendlens_fe/core/models/models.dart';
 import 'package:splendlens_fe/view/view.dart';
 import 'package:splendlens_fe/core/utilities/utilities.dart';
 import 'package:splendlens_fe/viewmodel/viewmodel.dart';
@@ -14,11 +15,22 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   HomeViewModel _homeViewModel = HomeViewModel();
   TextEditingController amountController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+
+  void handleAddExpense() async {
+    final Expense body = Expense(
+        amount: int.parse(amountController.text),
+        description: DateTime.now().toString(),
+        name: 'Groceries',
+        user: 1);
+    await _homeViewModel.addExpense(body);
+  }
 
   @override
   void initState() {
     _homeViewModel = context.read<HomeViewModel>();
     _homeViewModel.getUser(context);
+    _homeViewModel.getExpenses();
     super.initState();
   }
 
@@ -78,21 +90,22 @@ class _HomeScreenState extends State<HomeScreen> {
                           const Text('Add new expense'),
                           const Text('Choose Category'),
                           Form(
+                              key: _formKey,
                               child: Column(
-                            children: [
-                              TextFormField(
-                                keyboardType: TextInputType.number,
-                                controller: amountController,
-                                decoration: const InputDecoration(
-                                    label: Text('TOTAL AMOUNT'),
-                                    border: InputBorder.none),
-                              ),
-                              InputDatePickerFormField(
-                                  firstDate: date, lastDate: date),
-                                  
-                              CustomButton(onPressed: () {}, text: 'Add')
-                            ],
-                          ))
+                                children: [
+                                  TextFormField(
+                                    keyboardType: TextInputType.number,
+                                    controller: amountController,
+                                    decoration: const InputDecoration(
+                                        label: Text('TOTAL AMOUNT'),
+                                        border: InputBorder.none),
+                                  ),
+                                  InputDatePickerFormField(
+                                      firstDate: date, lastDate: date),
+                                  CustomButton(
+                                      onPressed: handleAddExpense, text: 'Add')
+                                ],
+                              ))
                         ],
                       ),
                     ),

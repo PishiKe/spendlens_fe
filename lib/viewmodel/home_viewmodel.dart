@@ -1,11 +1,12 @@
-import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
-import 'package:splendlens_fe/core/models/responses/responses.dart';
+import 'package:splendlens_fe/core/models/models.dart';
 import 'package:splendlens_fe/core/repository/repository.dart';
 import 'package:splendlens_fe/core/utilities/shared_prefs_utils.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 
 class HomeViewModel with ChangeNotifier {
   final _userRepository = UserRepositoryImp();
+  final _expenseRepository = ExpenseRepositoryImp();
 
   String? _username;
   String? get username => _username;
@@ -23,6 +24,9 @@ class HomeViewModel with ChangeNotifier {
     _isLoading = value;
     notifyListeners();
   }
+
+  UserResponse? _user;
+  UserResponse? get user => _user;
 
   void handleError(BuildContext context, String message) {
     final snackBar = SnackBar(
@@ -45,6 +49,7 @@ class HomeViewModel with ChangeNotifier {
 
   void handleUserReponse(BuildContext context, UserResponse? response) {
     if (response != null) {
+      _user = response;
       _username = response.username;
       notifyListeners();
     }
@@ -58,13 +63,23 @@ class HomeViewModel with ChangeNotifier {
     _isLoading = true;
     notifyListeners();
 
-    return _userRepository
+    return await _userRepository
         .getUser(key)
         .then((value) => handleUserReponse(context, value))
         .onError((error, stackTrace) => handleError(context, error.toString()));
   }
 
-  Future? addExpense (){
-    return null;
+  Future? addExpense(Expense body) async {
+    final String key = await SharedPrefsUtils.readPrefStr('key');
+
+    return await _expenseRepository.createExpense(body, key);
+  }
+
+  Future<void> getExpenses() async {
+    final String key = await SharedPrefsUtils.readPrefStr('key');
+
+    return await _expenseRepository.getExpenses(key).then((value) {
+      debugPrint(value.toString());
+    });
   }
 }

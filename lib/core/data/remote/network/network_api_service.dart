@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:splendlens_fe/core/data/remote/remote.dart';
 import 'package:http/http.dart' as http;
+import 'package:splendlens_fe/core/models/models.dart';
 
 class NetworkApiService extends BaseApiService {
   final Map<String, dynamic> _allowedHeaders = {
@@ -49,12 +50,12 @@ class NetworkApiService extends BaseApiService {
   }
 
   @override
-  Future createExpense(String url, Map<String, dynamic> body) async {
+  Future createExpense(String url, Expense body, String key) async {
     try {
       final response = await http.post(
         Uri.parse(baseUrl + url),
         body: json.encode(body),
-        headers: {..._allowedHeaders},
+        headers: {..._allowedHeaders, 'Authorization': 'Token $key'},
       );
 
       return returnResponse(response);
@@ -65,6 +66,19 @@ class NetworkApiService extends BaseApiService {
 
   @override
   Future getUser(String url, String key) async {
+    try {
+      final response = await http.get(
+        Uri.parse(baseUrl + url),
+        headers: {..._allowedHeaders, 'Authorization': 'Token $key'},
+      );
+
+      return returnResponse(response);
+    } on SocketException {
+      throw FetchDataException();
+    }
+  }
+
+  Future getExpenses(String url, String key) async {
     try {
       final response = await http.get(
         Uri.parse(baseUrl + url),

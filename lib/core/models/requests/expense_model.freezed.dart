@@ -20,12 +20,18 @@ Expense _$ExpenseFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Expense {
+  @JsonKey(name: "id")
+  int? get id => throw _privateConstructorUsedError;
   @JsonKey(name: "name")
   String? get name => throw _privateConstructorUsedError;
   @JsonKey(name: "description")
   String? get description => throw _privateConstructorUsedError;
+  @JsonKey(name: "date")
+  DateTime? get date => throw _privateConstructorUsedError;
   @JsonKey(name: "amount")
   int? get amount => throw _privateConstructorUsedError;
+  @JsonKey(name: "currency")
+  dynamic get currency => throw _privateConstructorUsedError;
   @JsonKey(name: "user")
   int? get user => throw _privateConstructorUsedError;
 
@@ -40,9 +46,12 @@ abstract class $ExpenseCopyWith<$Res> {
       _$ExpenseCopyWithImpl<$Res, Expense>;
   @useResult
   $Res call(
-      {@JsonKey(name: "name") String? name,
+      {@JsonKey(name: "id") int? id,
+      @JsonKey(name: "name") String? name,
       @JsonKey(name: "description") String? description,
+      @JsonKey(name: "date") DateTime? date,
       @JsonKey(name: "amount") int? amount,
+      @JsonKey(name: "currency") dynamic currency,
       @JsonKey(name: "user") int? user});
 }
 
@@ -59,12 +68,19 @@ class _$ExpenseCopyWithImpl<$Res, $Val extends Expense>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = freezed,
     Object? name = freezed,
     Object? description = freezed,
+    Object? date = freezed,
     Object? amount = freezed,
+    Object? currency = freezed,
     Object? user = freezed,
   }) {
     return _then(_value.copyWith(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -73,10 +89,18 @@ class _$ExpenseCopyWithImpl<$Res, $Val extends Expense>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
+      date: freezed == date
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       amount: freezed == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as int?,
+      currency: freezed == currency
+          ? _value.currency
+          : currency // ignore: cast_nullable_to_non_nullable
+              as dynamic,
       user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
@@ -93,9 +117,12 @@ abstract class _$$ExpenseImplCopyWith<$Res> implements $ExpenseCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "name") String? name,
+      {@JsonKey(name: "id") int? id,
+      @JsonKey(name: "name") String? name,
       @JsonKey(name: "description") String? description,
+      @JsonKey(name: "date") DateTime? date,
       @JsonKey(name: "amount") int? amount,
+      @JsonKey(name: "currency") dynamic currency,
       @JsonKey(name: "user") int? user});
 }
 
@@ -110,12 +137,19 @@ class __$$ExpenseImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = freezed,
     Object? name = freezed,
     Object? description = freezed,
+    Object? date = freezed,
     Object? amount = freezed,
+    Object? currency = freezed,
     Object? user = freezed,
   }) {
     return _then(_$ExpenseImpl(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -124,10 +158,18 @@ class __$$ExpenseImplCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
+      date: freezed == date
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       amount: freezed == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as int?,
+      currency: freezed == currency
+          ? _value.currency
+          : currency // ignore: cast_nullable_to_non_nullable
+              as dynamic,
       user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
@@ -140,14 +182,20 @@ class __$$ExpenseImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ExpenseImpl implements _Expense {
   const _$ExpenseImpl(
-      {@JsonKey(name: "name") this.name,
+      {@JsonKey(name: "id") this.id,
+      @JsonKey(name: "name") this.name,
       @JsonKey(name: "description") this.description,
+      @JsonKey(name: "date") this.date,
       @JsonKey(name: "amount") this.amount,
+      @JsonKey(name: "currency") this.currency,
       @JsonKey(name: "user") this.user});
 
   factory _$ExpenseImpl.fromJson(Map<String, dynamic> json) =>
       _$$ExpenseImplFromJson(json);
 
+  @override
+  @JsonKey(name: "id")
+  final int? id;
   @override
   @JsonKey(name: "name")
   final String? name;
@@ -155,15 +203,21 @@ class _$ExpenseImpl implements _Expense {
   @JsonKey(name: "description")
   final String? description;
   @override
+  @JsonKey(name: "date")
+  final DateTime? date;
+  @override
   @JsonKey(name: "amount")
   final int? amount;
+  @override
+  @JsonKey(name: "currency")
+  final dynamic currency;
   @override
   @JsonKey(name: "user")
   final int? user;
 
   @override
   String toString() {
-    return 'Expense(name: $name, description: $description, amount: $amount, user: $user)';
+    return 'Expense(id: $id, name: $name, description: $description, date: $date, amount: $amount, currency: $currency, user: $user)';
   }
 
   @override
@@ -171,16 +225,20 @@ class _$ExpenseImpl implements _Expense {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ExpenseImpl &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.description, description) ||
                 other.description == description) &&
+            (identical(other.date, date) || other.date == date) &&
             (identical(other.amount, amount) || other.amount == amount) &&
+            const DeepCollectionEquality().equals(other.currency, currency) &&
             (identical(other.user, user) || other.user == user));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, name, description, amount, user);
+  int get hashCode => Object.hash(runtimeType, id, name, description, date,
+      amount, const DeepCollectionEquality().hash(currency), user);
 
   @JsonKey(ignore: true)
   @override
@@ -198,13 +256,19 @@ class _$ExpenseImpl implements _Expense {
 
 abstract class _Expense implements Expense {
   const factory _Expense(
-      {@JsonKey(name: "name") final String? name,
+      {@JsonKey(name: "id") final int? id,
+      @JsonKey(name: "name") final String? name,
       @JsonKey(name: "description") final String? description,
+      @JsonKey(name: "date") final DateTime? date,
       @JsonKey(name: "amount") final int? amount,
+      @JsonKey(name: "currency") final dynamic currency,
       @JsonKey(name: "user") final int? user}) = _$ExpenseImpl;
 
   factory _Expense.fromJson(Map<String, dynamic> json) = _$ExpenseImpl.fromJson;
 
+  @override
+  @JsonKey(name: "id")
+  int? get id;
   @override
   @JsonKey(name: "name")
   String? get name;
@@ -212,8 +276,14 @@ abstract class _Expense implements Expense {
   @JsonKey(name: "description")
   String? get description;
   @override
+  @JsonKey(name: "date")
+  DateTime? get date;
+  @override
   @JsonKey(name: "amount")
   int? get amount;
+  @override
+  @JsonKey(name: "currency")
+  dynamic get currency;
   @override
   @JsonKey(name: "user")
   int? get user;

@@ -28,6 +28,9 @@ class HomeViewModel with ChangeNotifier {
   UserResponse? _user;
   UserResponse? get user => _user;
 
+  List<Expense> _expenses = [];
+  List<Expense> get expenses => _expenses;
+
   void handleError(BuildContext context, String message) {
     final snackBar = SnackBar(
       elevation: 0,
@@ -69,17 +72,20 @@ class HomeViewModel with ChangeNotifier {
         .onError((error, stackTrace) => handleError(context, error.toString()));
   }
 
-  Future? addExpense(Expense body) async {
-    final String key = await SharedPrefsUtils.readPrefStr('key');
-
-    return await _expenseRepository.createExpense(body, key);
-  }
-
   Future<void> getExpenses() async {
     final String key = await SharedPrefsUtils.readPrefStr('key');
+    await _expenseRepository.getExpenses(key).then((value) {
+      _expenses = value;
+      notifyListeners();
+    });
+  }
 
-    return await _expenseRepository.getExpenses(key).then((value) {
+  Future? addExpense(Map<String, dynamic> body) async {
+    final String key = await SharedPrefsUtils.readPrefStr('key');
+
+    return await _expenseRepository.createExpense(body, key).then((value) {
       debugPrint(value.toString());
+      getExpenses();
     });
   }
 }

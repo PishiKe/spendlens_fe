@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:splendlens_fe/core/models/models.dart';
@@ -14,15 +15,21 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   HomeViewModel _homeViewModel = HomeViewModel();
-  TextEditingController amountController = TextEditingController();
+  final amountController = TextEditingController();
+  final descriptionController = TextEditingController();
+  final expenseNameController = TextEditingController();
+  DateTime expenseDate = DateTime.now();
   final _formKey = GlobalKey<FormState>();
 
   void handleAddExpense() async {
-    final Expense body = Expense(
-        amount: int.parse(amountController.text),
-        description: DateTime.now().toString(),
-        name: 'Groceries',
-        user: 1);
+    final Map<String, dynamic> body = {
+      "amount": int.parse(amountController.text),
+      "date": expenseDate.toString(),
+      "description": descriptionController.text,
+      "name": expenseNameController.text,
+      "user": 1
+    };
+
     await _homeViewModel.addExpense(body);
   }
 
@@ -32,6 +39,13 @@ class _HomeScreenState extends State<HomeScreen> {
     _homeViewModel.getUser(context);
     _homeViewModel.getExpenses();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    amountController.dispose();
+    descriptionController.dispose();
+    super.dispose();
   }
 
   @override
@@ -83,32 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 context: context,
                 builder: (BuildContext context) {
                   return SizedBox.expand(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          const Text('Add new expense'),
-                          const Text('Choose Category'),
-                          Form(
-                              key: _formKey,
-                              child: Column(
-                                children: [
-                                  TextFormField(
-                                    keyboardType: TextInputType.number,
-                                    controller: amountController,
-                                    decoration: const InputDecoration(
-                                        label: Text('TOTAL AMOUNT'),
-                                        border: InputBorder.none),
-                                  ),
-                                  InputDatePickerFormField(
-                                      firstDate: date, lastDate: date),
-                                  CustomButton(
-                                      onPressed: handleAddExpense, text: 'Add')
-                                ],
-                              ))
-                        ],
-                      ),
-                    ),
+                    child: bottomSheet(date),
                   );
                 });
           },
@@ -116,5 +105,63 @@ class _HomeScreenState extends State<HomeScreen> {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       );
     });
+  }
+
+  Padding bottomSheet(DateTime date) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              'Add new expense',
+              style: AppTheme().blackBoldNormalStyle.copyWith(fontSize: 16),
+            ),
+          ),
+          Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  TextFormField(
+                    keyboardType: TextInputType.number,
+                    controller: amountController,
+                    decoration: const InputDecoration(label: Text('Amount')),
+                  ),
+                  const SizedBox(
+                    height: 16.0,
+                  ),
+                  TextFormField(
+                    controller: expenseNameController,
+                    decoration:
+                        const InputDecoration(label: Text('Expense name')),
+                  ),
+                  const SizedBox(
+                    height: 16.0,
+                  ),
+                  TextFormField(
+                    controller: descriptionController,
+                    decoration:
+                        const InputDecoration(label: Text('Description')),
+                  ),
+                  // InputDatePickerFormField(firstDate: date, lastDate: date),
+                  // SizedBox(
+                  //   height: 250,
+                  //   child: CupertinoDatePicker(
+                  //     backgroundColor: Colors.white,
+                  //     initialDateTime: date,
+                  //     onDateTimeChanged: (DateTime newDate) {
+                  //       setState(() {
+                  //         date = newDate;
+                  //       });
+                  //     },
+                  //   ),
+                  // ),
+                  CustomButton(onPressed: handleAddExpense, text: 'Add')
+                ],
+              ))
+        ],
+      ),
+    );
   }
 }

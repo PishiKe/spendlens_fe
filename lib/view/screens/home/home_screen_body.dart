@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
+import 'package:splendlens_fe/core/models/models.dart';
+import 'package:splendlens_fe/view/screens/home/components/expense_list.dart';
 import 'package:splendlens_fe/view/screens/home/home.dart';
 import 'package:splendlens_fe/core/utilities/utilities.dart';
+import 'package:splendlens_fe/viewmodel/viewmodel.dart';
 
 class HomeScreenBody extends StatefulWidget {
   const HomeScreenBody({super.key});
@@ -11,6 +15,18 @@ class HomeScreenBody extends StatefulWidget {
 }
 
 class _HomeScreenBodyState extends State<HomeScreenBody> {
+  HomeViewModel? _homeViewModel;
+  List<Expense>? expenses;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _homeViewModel = context.read<HomeViewModel>();
+    expenses = _homeViewModel!.expenses;
+    debugPrint(expenses.toString());
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -23,29 +39,27 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
             height: DeviceConfig.screenHeight,
             alignment: Alignment.topCenter,
             decoration: BoxDecoration(color: AppTheme().darkBlue),
-            child: Container(
-              child: ListTile(
-                leading: SvgPicture.asset(AppConstants().walletIcon),
-                title: Text(
-                  'Total Amount',
-                  style: AppTheme().whiteNormallineStyle,
-                ),
-                subtitle: Text(
-                  '1233',
-                  style: AppTheme().whiteBoldHeadlineStyle,
-                ),
-                trailing: SizedBox(
-                  height: 40.0,
-                  child: MaterialButton(
-                    elevation: 0,
-                    color: AppTheme().blue,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(24.0)),
-                    onPressed: () {},
-                    child: Text(
-                      'View Detail',
-                      style: AppTheme().whiteNormallineStyle,
-                    ),
+            child: ListTile(
+              leading: SvgPicture.asset(AppConstants().walletIcon),
+              title: Text(
+                'Total Amount',
+                style: AppTheme().whiteNormallineStyle,
+              ),
+              subtitle: Text(
+                '1233',
+                style: AppTheme().whiteBoldHeadlineStyle,
+              ),
+              trailing: SizedBox(
+                height: 40.0,
+                child: MaterialButton(
+                  elevation: 0,
+                  color: AppTheme().blue,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(24.0)),
+                  onPressed: () {},
+                  child: Text(
+                    'View Detail',
+                    style: AppTheme().whiteNormallineStyle,
                   ),
                 ),
               ),
@@ -76,9 +90,9 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
               bottom: 0,
               height: getProportionateScreenHeight(350),
               width: DeviceConfig.screenWidth,
-              child: Column(
+              child: const Column(
                 children: [
-                  const TabBar(
+                  TabBar(
                     tabs: [
                       Tab(
                         text: 'January',
@@ -92,38 +106,11 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                     ],
                   ),
                   Expanded(
-                    child: TabBarView(children: [
-                      Container(
-                        color: AppTheme().lightGrey,
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                            left: getProportionateScreenWidth(12),
-                            right: getProportionateScreenWidth(12),
-                            top: getProportionateScreenWidth(24),
-                          ),
-                          child: ListView.builder(
-                            itemCount: 5,
-                            itemBuilder: (context, index) => Card(
-                              color: AppTheme().white,
-                              elevation: 0,
-                              child: const ListTile(
-                                leading: Icon(Icons.sell_rounded),
-                                title: Text('Food & Bevereges'),
-                                subtitle: Text('Sarova mombasa'),
-                                trailing: Text('KES 7,500'),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const Center(
-                        child: Text('Feb'),
-                      ),
-                      const Center(
-                        child: Text('Mar'),
-                      ),
-                    ]),
-                  )
+                      child: TabBarView(children: [
+                    ExpenseList(),
+                    ExpenseList(),
+                    ExpenseList(),
+                  ]))
                 ],
               ))
         ],

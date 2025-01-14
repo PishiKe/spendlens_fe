@@ -11,8 +11,7 @@ _$ExpenseImpl _$$ExpenseImplFromJson(Map<String, dynamic> json) =>
       id: (json['id'] as num?)?.toInt(),
       name: json['name'] as String?,
       description: json['description'] as String?,
-      date:
-          json['date'] == null ? null : DateTime.parse(json['date'] as String),
+      date: json['date'] as String?,
       amount: (json['amount'] as num?)?.toInt(),
       currency: json['currency'],
       user: (json['user'] as num?)?.toInt(),
@@ -23,7 +22,7 @@ Map<String, dynamic> _$$ExpenseImplToJson(_$ExpenseImpl instance) =>
       'id': instance.id,
       'name': instance.name,
       'description': instance.description,
-      'date': instance.date?.toIso8601String(),
+      'date': instance.date,
       'amount': instance.amount,
       'currency': instance.currency,
       'user': instance.user,

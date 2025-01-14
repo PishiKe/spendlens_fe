@@ -27,7 +27,7 @@ mixin _$Expense {
   @JsonKey(name: "description")
   String? get description => throw _privateConstructorUsedError;
   @JsonKey(name: "date")
-  DateTime? get date => throw _privateConstructorUsedError;
+  String? get date => throw _privateConstructorUsedError;
   @JsonKey(name: "amount")
   int? get amount => throw _privateConstructorUsedError;
   @JsonKey(name: "currency")
@@ -49,7 +49,7 @@ abstract class $ExpenseCopyWith<$Res> {
       {@JsonKey(name: "id") int? id,
       @JsonKey(name: "name") String? name,
       @JsonKey(name: "description") String? description,
-      @JsonKey(name: "date") DateTime? date,
+      @JsonKey(name: "date") String? date,
       @JsonKey(name: "amount") int? amount,
       @JsonKey(name: "currency") dynamic currency,
       @JsonKey(name: "user") int? user});
@@ -92,7 +92,7 @@ class _$ExpenseCopyWithImpl<$Res, $Val extends Expense>
       date: freezed == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as String?,
       amount: freezed == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
@@ -120,7 +120,7 @@ abstract class _$$ExpenseImplCopyWith<$Res> implements $ExpenseCopyWith<$Res> {
       {@JsonKey(name: "id") int? id,
       @JsonKey(name: "name") String? name,
       @JsonKey(name: "description") String? description,
-      @JsonKey(name: "date") DateTime? date,
+      @JsonKey(name: "date") String? date,
       @JsonKey(name: "amount") int? amount,
       @JsonKey(name: "currency") dynamic currency,
       @JsonKey(name: "user") int? user});
@@ -161,7 +161,7 @@ class __$$ExpenseImplCopyWithImpl<$Res>
       date: freezed == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as String?,
       amount: freezed == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
@@ -204,7 +204,7 @@ class _$ExpenseImpl implements _Expense {
   final String? description;
   @override
   @JsonKey(name: "date")
-  final DateTime? date;
+  final String? date;
   @override
   @JsonKey(name: "amount")
   final int? amount;
@@ -259,7 +259,7 @@ abstract class _Expense implements Expense {
       {@JsonKey(name: "id") final int? id,
       @JsonKey(name: "name") final String? name,
       @JsonKey(name: "description") final String? description,
-      @JsonKey(name: "date") final DateTime? date,
+      @JsonKey(name: "date") final String? date,
       @JsonKey(name: "amount") final int? amount,
       @JsonKey(name: "currency") final dynamic currency,
       @JsonKey(name: "user") final int? user}) = _$ExpenseImpl;
@@ -277,7 +277,7 @@ abstract class _Expense implements Expense {
   String? get description;
   @override
   @JsonKey(name: "date")
-  DateTime? get date;
+  String? get date;
   @override
   @JsonKey(name: "amount")
   int? get amount;

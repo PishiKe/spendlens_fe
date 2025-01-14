@@ -1,8 +1,7 @@
-import 'dart:convert';
 import 'dart:io';
-import 'package:splendlens_fe/core/data/remote/remote.dart';
+import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:splendlens_fe/core/models/models.dart';
+import 'package:splendlens_fe/core/data/remote/remote.dart';
 
 class NetworkApiService extends BaseApiService {
   final Map<String, dynamic> _allowedHeaders = {
@@ -31,41 +30,7 @@ class NetworkApiService extends BaseApiService {
   }
 
   @override
-  Future<dynamic> login(String url, Map<String, dynamic> body) async {
-    try {
-      final response = await http.post(
-        Uri.parse(baseUrl + url),
-        body: json.encode(body),
-        headers: {..._allowedHeaders},
-      );
-
-      // print('Response Status: ${response.statusCode}');
-      // print('Response Headers: ${response.headers}');
-      // print('Response Body: ${response.body}');
-
-      return returnResponse(response);
-    } on SocketException {
-      throw FetchDataException('No Internet Connection');
-    }
-  }
-
-  @override
-  Future createExpense(String url, Expense body, String key) async {
-    try {
-      final response = await http.post(
-        Uri.parse(baseUrl + url),
-        body: json.encode(body),
-        headers: {..._allowedHeaders, 'Authorization': 'Token $key'},
-      );
-
-      return returnResponse(response);
-    } on SocketException {
-      throw FetchDataException();
-    }
-  }
-
-  @override
-  Future getUser(String url, String key) async {
+  Future get(String url, String key) async {
     try {
       final response = await http.get(
         Uri.parse(baseUrl + url),
@@ -78,11 +43,16 @@ class NetworkApiService extends BaseApiService {
     }
   }
 
-  Future getExpenses(String url, String key) async {
+  @override
+  Future post(String url, Map<String, dynamic> body, String? key) async {
     try {
-      final response = await http.get(
+      final response = await http.post(
         Uri.parse(baseUrl + url),
-        headers: {..._allowedHeaders, 'Authorization': 'Token $key'},
+        body: json.encode(body),
+        headers: {
+          ..._allowedHeaders,
+          key == null ? '' : 'Authorization': 'Token $key'
+        },
       );
 
       return returnResponse(response);

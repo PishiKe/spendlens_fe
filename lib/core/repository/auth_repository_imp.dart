@@ -10,26 +10,23 @@ class AuthRepositoryImp implements AuthRepository {
   Future<LoginResponse?> login(Map<String, dynamic> body) async {
     try {
       // Make the login request
-      dynamic response = await _apiService.login(
+      dynamic response = await _apiService.post(
         ApiEndpoints().login,
         body,
+        null,
       );
-
-      // Print the entire response for debugging
-      // print('Full Response: $response');
 
       // Convert the response to LoginResponse object
       return LoginResponse.fromJson(response);
     } catch (e) {
-      print('Error during login: $e');
-      rethrow; // Re-throw the exception to be handled elsewhere
+      rethrow;
     }
   }
 
   @override
   Future<UserResponse?> user(String? key) async {
     try {
-      dynamic response = await _apiService.getUser(ApiEndpoints().user, key!);
+      dynamic response = await _apiService.get(ApiEndpoints().user, key!);
 
       return UserResponse.fromJson(response);
     } catch (e) {

@@ -3,7 +3,12 @@ import 'package:splendlens_fe/core/utilities/utilities.dart';
 
 class AppTheme implements BaseTheme {
   @override
-  ThemeData get appTheme => ThemeData();
+  ThemeData get appTheme => ThemeData(
+          inputDecorationTheme: const InputDecorationTheme(
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+        ),
+      ));
 
   @override
   TextStyle get blackBoldNormalStyle => const TextStyle(
@@ -62,5 +67,4 @@ class AppTheme implements BaseTheme {
 
   @override
   Color get blue => Colors.blue.shade800;
-  
 }

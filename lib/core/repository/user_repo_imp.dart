@@ -7,12 +7,11 @@ class UserRepositoryImp implements UserRepository {
   @override
   Future<UserResponse?> getUser(String? key) async {
     try {
-      dynamic response = await _apiService.getUser(ApiEndpoints().user, key!);
+      dynamic response = await _apiService.get(ApiEndpoints().user, key!);
 
       return UserResponse.fromJson(response);
     } catch (e) {
       rethrow;
     }
   }
-
 }

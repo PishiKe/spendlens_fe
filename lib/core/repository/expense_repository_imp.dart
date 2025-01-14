@@ -6,12 +6,12 @@ class ExpenseRepositoryImp implements ExpenseRepository {
   NetworkApiService networkApiService = NetworkApiService();
 
   @override
-  Future<void> createExpense(Expense body, String key) async {
+  Future<Expense> createExpense(Map<String, dynamic> body, String key) async {
     try {
-      dynamic request = await networkApiService.createExpense(
-          ApiEndpoints().expenses, body, key);
+      dynamic request =
+          await networkApiService.post(ApiEndpoints().expenses, body, key);
 
-      return request;
+      return Expense.fromJson(request);
     } catch (e) {
       rethrow;
     }
@@ -21,7 +21,7 @@ class ExpenseRepositoryImp implements ExpenseRepository {
   Future<List<Expense>> getExpenses(String key) async {
     try {
       dynamic request =
-          await networkApiService.getExpenses(ApiEndpoints().expenses, key);
+          await networkApiService.get(ApiEndpoints().expenses, key);
 
       List<Expense> expenses = (request as List<dynamic>)
           .map((expenseJson) => Expense.fromJson(expenseJson))

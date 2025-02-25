@@ -12,3 +12,6 @@ export 'chart_utils.dart';
 
 // Shared prefs utils
 export 'shared_prefs_utils.dart';
+
+// Validators
+export 'form_validators.dart';

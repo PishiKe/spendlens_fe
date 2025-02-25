@@ -4,11 +4,11 @@ import 'package:splendlens_fe/core/utilities/utilities.dart';
 class AppTheme implements BaseTheme {
   @override
   ThemeData get appTheme => ThemeData(
-          inputDecorationTheme: const InputDecorationTheme(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(8.0)),
-        ),
-      ));
+      inputDecorationTheme: InputDecorationTheme(
+          labelStyle: TextStyle(color: AppTheme().darkGrey),
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: AppTheme().darkGrey),
+          )));
 
   @override
   TextStyle get blackBoldNormalStyle => const TextStyle(

@@ -10,9 +10,9 @@ class CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
-        color: AppTheme().blue,
+        color: AppTheme().lightBlue,
         shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(8.0))),
+            borderRadius: BorderRadius.all(Radius.circular(24.0))),
         onPressed: onPressed as void Function(),
         child: Text(
           text,

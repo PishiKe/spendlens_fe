@@ -2,10 +2,11 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:splendlens_fe/core/data/remote/remote.dart';
+import 'package:splendlens_fe/core/utilities/shared_prefs_utils.dart';
 
 class NetworkApiService extends BaseApiService {
   final Map<String, dynamic> _allowedHeaders = {
-    'Content-type': 'application/json'
+    'Content-type': 'application/json',
   };
   dynamic returnResponse(http.Response response) {
     dynamic responseJson = jsonDecode(response.body);
@@ -30,8 +31,10 @@ class NetworkApiService extends BaseApiService {
   }
 
   @override
-  Future get(String url, String key) async {
+  Future get(String url) async {
     try {
+      final String key = await SharedPrefsUtils.readPrefStr('key');
+
       final response = await http.get(
         Uri.parse(baseUrl + url),
         headers: {..._allowedHeaders, 'Authorization': 'Token $key'},
@@ -44,15 +47,14 @@ class NetworkApiService extends BaseApiService {
   }
 
   @override
-  Future post(String url, Map<String, dynamic> body, String? key) async {
+  Future post(String url, Map<String, dynamic> body) async {
     try {
+      final String key = await SharedPrefsUtils.readPrefStr('key');
+
       final response = await http.post(
         Uri.parse(baseUrl + url),
         body: json.encode(body),
-        headers: {
-          ..._allowedHeaders,
-          key == null ? '' : 'Authorization': 'Token $key'
-        },
+        headers: {..._allowedHeaders, 'Authorization': 'Token $key'},
       );
 
       return returnResponse(response);

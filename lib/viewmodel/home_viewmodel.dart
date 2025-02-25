@@ -50,7 +50,7 @@ class HomeViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void handleUserReponse(BuildContext context, UserResponse? response) {
+  void handleUserReponse(UserResponse? response) {
     if (response != null) {
       _user = response;
       _username = response.username;
@@ -68,7 +68,7 @@ class HomeViewModel with ChangeNotifier {
 
     return await _userRepository
         .getUser(key)
-        .then((value) => handleUserReponse(context, value))
+        .then((value) => handleUserReponse(value))
         .onError((error, stackTrace) => handleError(context, error.toString()));
   }
 
@@ -80,12 +80,11 @@ class HomeViewModel with ChangeNotifier {
     });
   }
 
-  Future? addExpense(Map<String, dynamic> body) async {
-    final String key = await SharedPrefsUtils.readPrefStr('key');
+  Future<Expense> addExpense(Map<String, dynamic> body) async {
+    final response = await _expenseRepository.createExpense(body);
+    await getExpenses();
+    debugPrint(response.toString());
 
-    return await _expenseRepository.createExpense(body, key).then((value) {
-      debugPrint(value.toString());
-      getExpenses();
-    });
+    return response;
   }
 }

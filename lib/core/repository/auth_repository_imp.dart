@@ -13,7 +13,6 @@ class AuthRepositoryImp implements AuthRepository {
       dynamic response = await _apiService.post(
         ApiEndpoints().login,
         body,
-        null,
       );
 
       // Convert the response to LoginResponse object
@@ -26,7 +25,7 @@ class AuthRepositoryImp implements AuthRepository {
   @override
   Future<UserResponse?> user(String? key) async {
     try {
-      dynamic response = await _apiService.get(ApiEndpoints().user, key!);
+      dynamic response = await _apiService.get(ApiEndpoints().user);
 
       return UserResponse.fromJson(response);
     } catch (e) {

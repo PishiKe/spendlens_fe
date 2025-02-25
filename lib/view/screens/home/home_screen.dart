@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:splendlens_fe/core/models/models.dart';
 import 'package:splendlens_fe/view/view.dart';
-import 'package:splendlens_fe/core/utilities/utilities.dart';
 import 'package:splendlens_fe/viewmodel/viewmodel.dart';
+import 'package:splendlens_fe/core/utilities/utilities.dart';
+import 'dart:io' show Platform;
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -18,19 +19,24 @@ class _HomeScreenState extends State<HomeScreen> {
   final amountController = TextEditingController();
   final descriptionController = TextEditingController();
   final expenseNameController = TextEditingController();
-  DateTime expenseDate = DateTime.now();
+  DateTime? expenseDate = DateTime.now();
   final _formKey = GlobalKey<FormState>();
 
-  void handleAddExpense() async {
-    final Map<String, dynamic> body = {
+  void handleAddExpense() {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+    final Map<String, dynamic> formData = {
       "amount": int.parse(amountController.text),
       "date": expenseDate.toString(),
       "description": descriptionController.text,
       "name": expenseNameController.text,
-      "user": 1
+      "user": _homeViewModel.user?.id
     };
 
-    await _homeViewModel.addExpense(body);
+    _homeViewModel.addExpense(formData).then((value) {
+      if (mounted) context.pop();
+    });
   }
 
   @override
@@ -91,13 +97,11 @@ class _HomeScreenState extends State<HomeScreen> {
             color: AppTheme().white,
           ),
           onPressed: () {
-            DateTime now = DateTime.now();
-            DateTime date = DateTime(now.year, now.month, now.day);
             showModalBottomSheet(
                 context: context,
                 builder: (BuildContext context) {
                   return SizedBox.expand(
-                    child: bottomSheet(date),
+                    child: bottomSheet(),
                   );
                 });
           },
@@ -107,16 +111,16 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  Padding bottomSheet(DateTime date) {
+  Padding bottomSheet() {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
       child: Column(
         children: [
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
               'Add new expense',
-              style: AppTheme().blackBoldNormalStyle.copyWith(fontSize: 16),
+              style: AppTheme().blackBoldNormalStyle.copyWith(fontSize: 20.0),
             ),
           ),
           Form(
@@ -127,6 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     keyboardType: TextInputType.number,
                     controller: amountController,
                     decoration: const InputDecoration(label: Text('Amount')),
+                    validator: (value) => Validators.notEmpty(value, 'amount'),
                   ),
                   const SizedBox(
                     height: 16.0,
@@ -135,6 +140,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     controller: expenseNameController,
                     decoration:
                         const InputDecoration(label: Text('Expense name')),
+                    validator: (value) =>
+                        Validators.notEmpty(value, 'an expense name'),
                   ),
                   const SizedBox(
                     height: 16.0,
@@ -144,20 +151,31 @@ class _HomeScreenState extends State<HomeScreen> {
                     decoration:
                         const InputDecoration(label: Text('Description')),
                   ),
-                  // InputDatePickerFormField(firstDate: date, lastDate: date),
-                  // SizedBox(
-                  //   height: 250,
-                  //   child: CupertinoDatePicker(
-                  //     backgroundColor: Colors.white,
-                  //     initialDateTime: date,
-                  //     onDateTimeChanged: (DateTime newDate) {
-                  //       setState(() {
-                  //         date = newDate;
-                  //       });
-                  //     },
-                  //   ),
-                  // ),
-                  CustomButton(onPressed: handleAddExpense, text: 'Add')
+                  const SizedBox(
+                    height: 24.0,
+                  ),
+                  Platform.isIOS
+                      ? SizedBox(
+                          height: 100,
+                          child: CupertinoDatePicker(
+                            initialDateTime: expenseDate,
+                            onDateTimeChanged: (DateTime newDate) {
+                              setState(() {
+                                expenseDate = newDate;
+                              });
+                            },
+                          ),
+                        )
+                      : InputDatePickerFormField(
+                          firstDate: expenseDate!, lastDate: expenseDate!),
+                  const SizedBox(
+                    height: 16.0,
+                  ),
+                  SizedBox(
+                      width: double.infinity,
+                      height: 50.0,
+                      child: CustomButton(
+                          onPressed: handleAddExpense, text: 'Add'))
                 ],
               ))
         ],

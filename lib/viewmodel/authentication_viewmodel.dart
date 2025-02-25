@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:splendlens_fe/core/repository/repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:splendlens_fe/core/models/responses/responses.dart';
 import 'package:splendlens_fe/core/data/response/auth_response.dart';
-import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 
 class AuthenticationViewModel with ChangeNotifier {
   final _authRepository = AuthRepositoryImp();
@@ -24,7 +22,12 @@ class AuthenticationViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  String errorMessage = '';
+  String _errorMessage = '';
+  String get errorMessage => _errorMessage;
+  set errorMessage(String newMessage) {
+    _errorMessage = newMessage;
+    notifyListeners();
+  }
 
   UserResponse? _user;
   UserResponse? get user => _user;
@@ -32,70 +35,36 @@ class AuthenticationViewModel with ChangeNotifier {
   String? _firstName;
   String? get firstName => _firstName;
 
-  void handleError(BuildContext context, String message) {
-    final snackBar = SnackBar(
-      elevation: 0,
-      behavior: SnackBarBehavior.floating,
-      backgroundColor: Colors.transparent,
-      content: AwesomeSnackbarContent(
-        title: 'On Snap!',
-        message: message,
-        contentType: ContentType.failure,
-      ),
-    );
-
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(snackBar);
+  void handleSessionResponse(LoginResponse? response) async {
     _isLoading = false;
-    notifyListeners();
-  }
-
-  void handleSessionResponse(
-      BuildContext context, LoginResponse? response) async {
-    _isLoading = false;
-    notifyListeners();
 
     if (response != null && response.key != null) {
       _status = AuthStatus.authenticated;
-      notifyListeners();
       // await getUser(context, response.key);
       saveAuthKey(response.key!.toString());
-      context.go('/');
     } else {
-      final snackBar = SnackBar(
-        elevation: 0,
-        behavior: SnackBarBehavior.floating,
-        backgroundColor: const Color.fromARGB(0, 91, 82, 82),
-        content: AwesomeSnackbarContent(
-          title: '',
-          message: '${response!.errorMessage}',
-          contentType: ContentType.warning,
-        ),
-      );
-
-      ScaffoldMessenger.of(context)
-        ..hideCurrentSnackBar()
-        ..showSnackBar(snackBar);
+      _status = AuthStatus.unauthenticated;
+      _errorMessage = response!.errorMessage!;
     }
   }
 
-  Future<void> login(BuildContext context, Map<String, dynamic> body) async {
+  login(Map<String, dynamic> body) {
     _isLoading = true;
     loginBody = body;
     _status = AuthStatus.authenticating;
 
-    _authRepository
+    final response = _authRepository
         .login(body)
-        .then((value) => handleSessionResponse(context, value))
-        .onError((error, stackTrace) => handleError(context, error.toString()));
+        .then((value) => handleSessionResponse(value))
+        .onError((error, stackTrace) => _errorMessage = error.toString());
+
+    return response;
   }
 
   void handleUserReponse(BuildContext context, UserResponse? response) {
     if (response != null) {
       _user = response;
       _firstName = response.username;
-      notifyListeners();
     }
   }
 

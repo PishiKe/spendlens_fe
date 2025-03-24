@@ -21,3 +21,14 @@ class Expense with _$Expense {
       _$ExpenseFromJson(json);
 
 }
+
+@freezed
+class MontlyExpenseTotal with _$MontlyExpenseTotal {
+    const factory MontlyExpenseTotal({
+        @JsonKey(name: "total_expense")
+        double? totalExpense,
+    }) = _MontlyExpenseTotal;
+
+    factory MontlyExpenseTotal.fromJson(Map<String, dynamic> json) =>
+        _$MontlyExpenseTotalFromJson(json);
+}

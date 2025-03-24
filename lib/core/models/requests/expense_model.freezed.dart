@@ -292,3 +292,147 @@ abstract class _Expense implements Expense {
   _$$ExpenseImplCopyWith<_$ExpenseImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
+
+MontlyExpenseTotal _$MontlyExpenseTotalFromJson(Map<String, dynamic> json) {
+  return _MontlyExpenseTotal.fromJson(json);
+}
+
+/// @nodoc
+mixin _$MontlyExpenseTotal {
+  @JsonKey(name: "total_expense")
+  double? get totalExpense => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $MontlyExpenseTotalCopyWith<MontlyExpenseTotal> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $MontlyExpenseTotalCopyWith<$Res> {
+  factory $MontlyExpenseTotalCopyWith(
+          MontlyExpenseTotal value, $Res Function(MontlyExpenseTotal) then) =
+      _$MontlyExpenseTotalCopyWithImpl<$Res, MontlyExpenseTotal>;
+  @useResult
+  $Res call({@JsonKey(name: "total_expense") double? totalExpense});
+}
+
+/// @nodoc
+class _$MontlyExpenseTotalCopyWithImpl<$Res, $Val extends MontlyExpenseTotal>
+    implements $MontlyExpenseTotalCopyWith<$Res> {
+  _$MontlyExpenseTotalCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? totalExpense = freezed,
+  }) {
+    return _then(_value.copyWith(
+      totalExpense: freezed == totalExpense
+          ? _value.totalExpense
+          : totalExpense // ignore: cast_nullable_to_non_nullable
+              as double?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$MontlyExpenseTotalImplCopyWith<$Res>
+    implements $MontlyExpenseTotalCopyWith<$Res> {
+  factory _$$MontlyExpenseTotalImplCopyWith(_$MontlyExpenseTotalImpl value,
+          $Res Function(_$MontlyExpenseTotalImpl) then) =
+      __$$MontlyExpenseTotalImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({@JsonKey(name: "total_expense") double? totalExpense});
+}
+
+/// @nodoc
+class __$$MontlyExpenseTotalImplCopyWithImpl<$Res>
+    extends _$MontlyExpenseTotalCopyWithImpl<$Res, _$MontlyExpenseTotalImpl>
+    implements _$$MontlyExpenseTotalImplCopyWith<$Res> {
+  __$$MontlyExpenseTotalImplCopyWithImpl(_$MontlyExpenseTotalImpl _value,
+      $Res Function(_$MontlyExpenseTotalImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? totalExpense = freezed,
+  }) {
+    return _then(_$MontlyExpenseTotalImpl(
+      totalExpense: freezed == totalExpense
+          ? _value.totalExpense
+          : totalExpense // ignore: cast_nullable_to_non_nullable
+              as double?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MontlyExpenseTotalImpl implements _MontlyExpenseTotal {
+  const _$MontlyExpenseTotalImpl(
+      {@JsonKey(name: "total_expense") this.totalExpense});
+
+  factory _$MontlyExpenseTotalImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MontlyExpenseTotalImplFromJson(json);
+
+  @override
+  @JsonKey(name: "total_expense")
+  final double? totalExpense;
+
+  @override
+  String toString() {
+    return 'MontlyExpenseTotal(totalExpense: $totalExpense)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MontlyExpenseTotalImpl &&
+            (identical(other.totalExpense, totalExpense) ||
+                other.totalExpense == totalExpense));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, totalExpense);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MontlyExpenseTotalImplCopyWith<_$MontlyExpenseTotalImpl> get copyWith =>
+      __$$MontlyExpenseTotalImplCopyWithImpl<_$MontlyExpenseTotalImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MontlyExpenseTotalImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _MontlyExpenseTotal implements MontlyExpenseTotal {
+  const factory _MontlyExpenseTotal(
+          {@JsonKey(name: "total_expense") final double? totalExpense}) =
+      _$MontlyExpenseTotalImpl;
+
+  factory _MontlyExpenseTotal.fromJson(Map<String, dynamic> json) =
+      _$MontlyExpenseTotalImpl.fromJson;
+
+  @override
+  @JsonKey(name: "total_expense")
+  double? get totalExpense;
+  @override
+  @JsonKey(ignore: true)
+  _$$MontlyExpenseTotalImplCopyWith<_$MontlyExpenseTotalImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}

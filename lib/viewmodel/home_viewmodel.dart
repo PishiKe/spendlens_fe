@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:splendlens_fe/core/models/models.dart';
 import 'package:splendlens_fe/core/repository/repository.dart';
 import 'package:splendlens_fe/core/utilities/shared_prefs_utils.dart';
-import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 
 class HomeViewModel with ChangeNotifier {
   final _userRepository = UserRepositoryImp();
@@ -31,24 +30,9 @@ class HomeViewModel with ChangeNotifier {
   List<Expense> _expenses = [];
   List<Expense> get expenses => _expenses;
 
-  void handleError(BuildContext context, String message) {
-    final snackBar = SnackBar(
-      elevation: 0,
-      behavior: SnackBarBehavior.floating,
-      backgroundColor: Colors.transparent,
-      content: AwesomeSnackbarContent(
-        title: 'On Snap!',
-        message: message,
-        contentType: ContentType.failure,
-      ),
-    );
+  double _expenseTotal = 0;
+  double get expenseTotal => _expenseTotal;
 
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(snackBar);
-    _isLoading = false;
-    notifyListeners();
-  }
 
   void handleUserReponse(UserResponse? response) {
     if (response != null) {
@@ -60,16 +44,30 @@ class HomeViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getUser(BuildContext context) async {
+  Future getUser(BuildContext context) async {
     final String key = await SharedPrefsUtils.readPrefStr('key');
 
     _isLoading = true;
+
+    try {
+      final response = await _userRepository.getUser(key);
+      _user = response;
+      _username = response?.username;
+      getMontlyExpense(response!.id!);
+      notifyListeners();
+    } catch (e){
+      rethrow;
+    } finally {
+      _isLoading = false;
+    }
+  }
+
+  Future<MontlyExpenseTotal> getMontlyExpense(int userId) async {
+    final response = await _expenseRepository.getMontlyExpense(userId);
+    _expenseTotal = response.totalExpense!;
     notifyListeners();
 
-    return await _userRepository
-        .getUser(key)
-        .then((value) => handleUserReponse(value))
-        .onError((error, stackTrace) => handleError(context, error.toString()));
+    return response;
   }
 
   Future<void> getExpenses() async {
@@ -83,7 +81,7 @@ class HomeViewModel with ChangeNotifier {
   Future<Expense> addExpense(Map<String, dynamic> body) async {
     final response = await _expenseRepository.createExpense(body);
     await getExpenses();
-    debugPrint(response.toString());
+    await getMontlyExpense(_user!.id!);
 
     return response;
   }

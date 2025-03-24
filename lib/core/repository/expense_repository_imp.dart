@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/material.dart';
 import 'package:splendlens_fe/core/data/data.dart';
 import 'package:splendlens_fe/core/models/models.dart';
 import 'package:splendlens_fe/core/repository/expense_repository.dart';
@@ -20,16 +23,31 @@ class ExpenseRepositoryImp implements ExpenseRepository {
   @override
   Future<List<Expense>> getExpenses(String key) async {
     try {
-      dynamic request =
-          await networkApiService.get(ApiEndpoints().expenses);
+      dynamic request = await networkApiService.get(ApiEndpoints().expenses);
 
       List<Expense> expenses = (request as List<dynamic>)
-          .map((expenseJson) => Expense.fromJson(expenseJson))
-          .toList();
+        .map((expenseJson) => Expense.fromJson(expenseJson))
+        .toList();
 
       return expenses;
+    } on SocketException catch(e){
+      throw FetchDataException("No Internet Connection ${e.message}");
     } catch (e) {
-      rethrow;
+      throw FetchDataException("Something went wrong");
+    }
+  }
+
+  @override
+  Future<MontlyExpenseTotal> getMontlyExpense(int userId) async{
+    try {
+      dynamic request = await networkApiService.get('${ApiEndpoints().monthlyExpenseTotal}/?user=$userId');
+      debugPrint('monthly $request');
+
+      return MontlyExpenseTotal.fromJson(request);
+    } on SocketException catch(e){
+      throw FetchDataException("No Internet Connection ${e.message}");
+    } catch (e) {
+      throw FetchDataException("Something went wrong");
     }
   }
 }

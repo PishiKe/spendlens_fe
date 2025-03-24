@@ -27,3 +27,15 @@ Map<String, dynamic> _$$ExpenseImplToJson(_$ExpenseImpl instance) =>
       'currency': instance.currency,
       'user': instance.user,
     };
+
+_$MontlyExpenseTotalImpl _$$MontlyExpenseTotalImplFromJson(
+        Map<String, dynamic> json) =>
+    _$MontlyExpenseTotalImpl(
+      totalExpense: (json['total_expense'] as num?)?.toDouble(),
+    );
+
+Map<String, dynamic> _$$MontlyExpenseTotalImplToJson(
+        _$MontlyExpenseTotalImpl instance) =>
+    <String, dynamic>{
+      'total_expense': instance.totalExpense,
+    };

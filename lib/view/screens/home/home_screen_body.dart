@@ -24,15 +24,12 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
 
     _homeViewModel = context.read<HomeViewModel>();
     expenses = _homeViewModel!.expenses;
-    debugPrint(expenses.toString());
   }
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      initialIndex: 0,
-      length: 3,
-      child: Stack(
+    return Consumer<HomeViewModel>(builder: (context, viewmodel, child) {
+      return Stack(
         children: <Widget>[
           Container(
             width: DeviceConfig.screenWidth,
@@ -46,7 +43,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                 style: AppTheme().whiteNormallineStyle,
               ),
               subtitle: Text(
-                '1233',
+                viewmodel.expenseTotal.toString(),
                 style: AppTheme().whiteBoldHeadlineStyle,
               ),
               trailing: SizedBox(
@@ -86,35 +83,39 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                     color: Colors.white),
                 child: const HomeBarChart()),
           ),
-          Positioned(
-              bottom: 0,
-              height: getProportionateScreenHeight(350),
-              width: DeviceConfig.screenWidth,
-              child: const Column(
-                children: [
-                  TabBar(
-                    tabs: [
-                      Tab(
-                        text: 'January',
-                      ),
-                      Tab(
-                        text: 'February',
-                      ),
-                      Tab(
-                        text: 'March',
-                      )
-                    ],
-                  ),
-                  Expanded(
-                      child: TabBarView(children: [
-                    ExpenseList(),
-                    ExpenseList(),
-                    ExpenseList(),
-                  ]))
-                ],
-              ))
+          DefaultTabController(
+            initialIndex: 0,
+            length: 3,
+            child: Positioned(
+                bottom: 0,
+                height: getProportionateScreenHeight(350),
+                width: DeviceConfig.screenWidth,
+                child: const Column(
+                  children: [
+                    TabBar(
+                      tabs: [
+                        Tab(
+                          text: 'January',
+                        ),
+                        Tab(
+                          text: 'February',
+                        ),
+                        Tab(
+                          text: 'March',
+                        )
+                      ],
+                    ),
+                    Expanded(
+                        child: TabBarView(children: [
+                      ExpenseList(),
+                      ExpenseList(),
+                      ExpenseList(),
+                    ]))
+                  ],
+                )),
+          )
         ],
-      ),
-    );
+      );
+    });
   }
 }

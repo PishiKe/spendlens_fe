@@ -19,6 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final amountController = TextEditingController();
   final descriptionController = TextEditingController();
   final expenseNameController = TextEditingController();
+  final expenseDateController = TextEditingController();
   DateTime? expenseDate = DateTime.now();
   final _formKey = GlobalKey<FormState>();
 
@@ -39,12 +40,28 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  Future<void> _selectExpenseDate() async{
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      firstDate: DateTime.now().subtract(const Duration(days: 365)),
+      lastDate: DateTime.now().add( const Duration(days: 365)
+    ));
+
+    if (picked != null && picked != expenseDate){
+      setState(() {
+        expenseDate = picked;
+        expenseDateController.text = '${picked.toLocal()}';
+      });
+    }
+  }
+
   @override
   void initState() {
     _homeViewModel = context.read<HomeViewModel>();
     _homeViewModel.getUser(context);
-    _homeViewModel.getExpenses();
     super.initState();
+
+    _homeViewModel.getExpenses();
   }
 
   @override
@@ -166,8 +183,17 @@ class _HomeScreenState extends State<HomeScreen> {
                             },
                           ),
                         )
-                      : InputDatePickerFormField(
-                          firstDate: expenseDate!, lastDate: expenseDate!),
+                      : TextFormField(
+                          controller: expenseDateController,
+                          decoration: InputDecoration(
+                            label:const Text('Date'),
+                            suffixIcon: Icon(
+                              Icons.calendar_month,
+                              color: AppTheme().black,
+                            ),
+                          ),
+                        onTap: _selectExpenseDate,
+                      ),
                   const SizedBox(
                     height: 16.0,
                   ),

@@ -9,13 +9,11 @@ class AuthRepositoryImp implements AuthRepository {
   @override
   Future<LoginResponse?> login(Map<String, dynamic> body) async {
     try {
-      // Make the login request
       dynamic response = await _apiService.post(
         ApiEndpoints().login,
         body,
       );
 
-      // Convert the response to LoginResponse object
       return LoginResponse.fromJson(response);
     } catch (e) {
       rethrow;

@@ -60,8 +60,6 @@ class _HomeScreenState extends State<HomeScreen> {
     _homeViewModel = context.read<HomeViewModel>();
     _homeViewModel.getUser(context);
     super.initState();
-
-    _homeViewModel.getExpenses();
   }
 
   @override

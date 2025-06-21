@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:splendlens_fe/core/models/models.dart';
 import 'package:splendlens_fe/view/screens/home/components/expense_list.dart';
@@ -14,16 +15,58 @@ class HomeScreenBody extends StatefulWidget {
   State<HomeScreenBody> createState() => _HomeScreenBodyState();
 }
 
-class _HomeScreenBodyState extends State<HomeScreenBody> {
+class _HomeScreenBodyState extends State<HomeScreenBody>
+    with SingleTickerProviderStateMixin {
   HomeViewModel? _homeViewModel;
   List<Expense>? expenses;
+
+  DateTime now = DateTime.now();
+  late List<String> last3Months;
+  late TabController _tabController;
+  int selectedTabIndex = 0;
 
   @override
   void initState() {
     super.initState();
 
     _homeViewModel = context.read<HomeViewModel>();
-    expenses = _homeViewModel!.expenses;
+
+    last3Months = List.generate(3, (index) {
+      DateTime month = DateTime(now.year, now.month - index, 1);
+      return DateFormat('MMMM').format(month);
+    });
+
+    _tabController = TabController(length: 4, vsync: this);
+
+    _tabController.addListener(() {
+      if (!_tabController.indexIsChanging) {
+        setState(() {
+          selectedTabIndex = _tabController.index;
+        });
+        fetchExpensesForTab(selectedTabIndex);
+      }
+    });
+
+
+    fetchExpensesForTab(0);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  Future<void> fetchExpensesForTab(int index) async {
+    if (index < 3) {
+      DateTime selectedDate = DateTime(now.year, now.month - index, 1);
+
+      String formattedDate = DateFormat('yyyy-MM').format(selectedDate);
+
+      _homeViewModel!.getExpensesByMonth(formattedDate);
+    } else {
+      _homeViewModel!.getExpenses();
+    }
   }
 
   @override
@@ -31,6 +74,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
     return Consumer<HomeViewModel>(builder: (context, viewmodel, child) {
       return Stack(
         children: <Widget>[
+          // Header Container
           Container(
             width: DeviceConfig.screenWidth,
             height: DeviceConfig.screenHeight,
@@ -62,6 +106,8 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
               ),
             ),
           ),
+
+          // White background bottom
           Positioned(
             bottom: getProportionateScreenHeight(0),
             child: Container(
@@ -69,6 +115,8 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                 height: getProportionateScreenHeight(500),
                 color: Colors.white),
           ),
+
+          // Chart section
           Positioned(
             top: getProportionateScreenHeight(90),
             width: DeviceConfig.screenWidth,
@@ -83,36 +131,36 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                     color: Colors.white),
                 child: const HomeBarChart()),
           ),
-          DefaultTabController(
-            initialIndex: 0,
-            length: 3,
-            child: Positioned(
-                bottom: 0,
-                height: getProportionateScreenHeight(350),
-                width: DeviceConfig.screenWidth,
-                child: const Column(
-                  children: [
-                    TabBar(
-                      tabs: [
-                        Tab(
-                          text: 'January',
-                        ),
-                        Tab(
-                          text: 'February',
-                        ),
-                        Tab(
-                          text: 'March',
-                        )
-                      ],
-                    ),
-                    Expanded(
-                        child: TabBarView(children: [
-                      ExpenseList(),
-                      ExpenseList(),
-                      ExpenseList(),
-                    ]))
+
+          // Tabs + Expense List
+          Positioned(
+            bottom: 0,
+            height: getProportionateScreenHeight(350),
+            width: DeviceConfig.screenWidth,
+            child: Column(
+              children: [
+                // Tabs
+                TabBar(
+                  controller: _tabController,
+                  tabs: [
+                    for (var month in last3Months) Tab(text: month),
+                    const Tab(text: 'All'),
                   ],
-                )),
+                ),
+                // Expense List views
+                Expanded(
+                  child: TabBarView(
+                    controller: _tabController,
+                    children: const [
+                      ExpenseList(),
+                      ExpenseList(),
+                      ExpenseList(),
+                      ExpenseList(),
+                    ],
+                  ),
+                )
+              ],
+            ),
           )
         ],
       );

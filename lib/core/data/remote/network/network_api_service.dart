@@ -8,6 +8,7 @@ class NetworkApiService extends BaseApiService {
   final Map<String, dynamic> _allowedHeaders = {
     'Content-type': 'application/json',
   };
+
   dynamic returnResponse(http.Response response) {
     dynamic responseJson = jsonDecode(response.body);
 
@@ -49,17 +50,23 @@ class NetworkApiService extends BaseApiService {
   @override
   Future post(String url, Map<String, dynamic> body) async {
     try {
-      final String key = await SharedPrefsUtils.readPrefStr('key');
+      final String? key = await SharedPrefsUtils.readPrefStr('key');
+      Map<String, String> headers = {
+        ..._allowedHeaders,
+        if (key != null) 'Authorization': 'Token $key'
+      };
 
       final response = await http.post(
         Uri.parse(baseUrl + url),
         body: json.encode(body),
-        headers: {..._allowedHeaders, 'Authorization': 'Token $key'},
+        headers: headers,
       );
 
       return returnResponse(response);
-    } on SocketException {
-      throw FetchDataException();
+    } on SocketException catch (e) {
+      throw FetchDataException("No Internet Connection ${e.message}");
+    } catch (e) {
+      throw FetchDataException("Something went wrong");
     }
   }
 }

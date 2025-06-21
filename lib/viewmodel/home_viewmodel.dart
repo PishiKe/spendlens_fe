@@ -63,7 +63,7 @@ class HomeViewModel with ChangeNotifier {
   }
 
   Future<MontlyExpenseTotal> getMontlyExpense(int userId) async {
-    final response = await _expenseRepository.getMontlyExpense(userId);
+    final response = await _expenseRepository.getMontlyTotalExpense(userId);
     _expenseTotal = response.totalExpense!;
     notifyListeners();
 
@@ -84,5 +84,21 @@ class HomeViewModel with ChangeNotifier {
     await getMontlyExpense(_user!.id!);
 
     return response;
+  }
+
+  Future<List<Expense>> getExpensesByMonth(String month) async{
+    List<Expense> response = [];
+    try {
+      if (_user?.id != null){
+      final response = await _expenseRepository.getExpensesByMonth(_user!.id!, month);
+      _expenses = response;
+      notifyListeners();
+      }
+
+    return response;
+    } catch (e) {
+      rethrow;
+    }
+
   }
 }

@@ -35,12 +35,10 @@ class AuthenticationViewModel with ChangeNotifier {
   String? _firstName;
   String? get firstName => _firstName;
 
-  void handleSessionResponse(LoginResponse? response) async {
+  Future<void> handleSessionResponse(LoginResponse? response) async {
     _isLoading = false;
-
     if (response != null && response.key != null) {
       _status = AuthStatus.authenticated;
-      // await getUser(context, response.key);
       saveAuthKey(response.key!.toString());
     } else {
       _status = AuthStatus.unauthenticated;
@@ -48,20 +46,16 @@ class AuthenticationViewModel with ChangeNotifier {
     }
   }
 
-  login(Map<String, dynamic> body) {
+  Future<void> login(Map<String, dynamic> body) async{
     _isLoading = true;
     loginBody = body;
     _status = AuthStatus.authenticating;
 
-    final response = _authRepository
-        .login(body)
-        .then((value) => handleSessionResponse(value))
-        .onError((error, stackTrace) => _errorMessage = error.toString());
-
-    return response;
+    final response = await _authRepository.login(body);
+    await handleSessionResponse(response);
   }
 
-  void handleUserReponse(BuildContext context, UserResponse? response) {
+  void handleUserReponse(UserResponse? response) {
     if (response != null) {
       _user = response;
       _firstName = response.username;
@@ -71,7 +65,7 @@ class AuthenticationViewModel with ChangeNotifier {
   Future<void> getUser(BuildContext context, String? key) async {
     return _authRepository
         .user(key)
-        .then((value) => handleUserReponse(context, value));
+        .then((value) => handleUserReponse(value));
   }
 
   Future saveAuthKey(String key) async {

@@ -13,7 +13,16 @@ class AppRoutes {
             name: 'login',
             builder: AppWidgets.loginWidget),
         GoRoute(
-            path: AppScreens.home, name: 'home', builder: AppWidgets.homeWidget)
+          path: AppScreens.home,
+          name: 'home',
+          builder: AppWidgets.homeWidget,
+          routes: [
+            GoRoute(
+                path: AppScreens.addExpense,
+                name: 'addExpense',
+                builder: AppWidgets.addExpense)
+          ],
+        ),
       ]);
 
   static GoRouter get router => _router;

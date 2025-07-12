@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:splendlens_fe/view/view.dart';
 import 'package:splendlens_fe/core/utilities/utilities.dart';
 
-class BottomNavbar extends StatefulWidget {
+class BottomNavbar extends StatelessWidget {
   const BottomNavbar({super.key});
 
-  @override
-  State<BottomNavbar> createState() => _BottomNavbarState();
-}
-
-class _BottomNavbarState extends State<BottomNavbar> {
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
@@ -22,7 +18,9 @@ class _BottomNavbarState extends State<BottomNavbar> {
           Column(
             children: [
               CustomIconButton(
-                  height: 30, icon: 'assets/icons/home.svg', onTap: () {}),
+                  height: 20,
+                  icon: 'assets/icons/home.svg',
+                  onTap: () => context.go('/home')),
               const Text('Home')
             ],
           ),
@@ -31,9 +29,9 @@ class _BottomNavbarState extends State<BottomNavbar> {
             child: Column(
               children: [
                 CustomIconButton(
-                  height: 30,
+                  height: 20,
                   icon: 'assets/icons/goals.svg',
-                  onTap: () {},
+                  onTap: () => context.go('/goals'),
                 ),
                 const Text('Goals')
               ],
@@ -44,9 +42,9 @@ class _BottomNavbarState extends State<BottomNavbar> {
             child: Column(
               children: [
                 CustomIconButton(
-                    height: 25,
+                    height: 18,
                     icon: 'assets/icons/round_arrow.svg',
-                    onTap: () {}),
+                    onTap: () => context.go('/recurring')),
                 const Text('Recurring')
               ],
             ),
@@ -54,7 +52,9 @@ class _BottomNavbarState extends State<BottomNavbar> {
           Column(
             children: [
               CustomIconButton(
-                  height: 30, icon: 'assets/icons/burger.svg', onTap: () {}),
+                  height: 20,
+                  icon: 'assets/icons/burger.svg',
+                  onTap: () => context.go('/profile')),
               const Text('More')
             ],
           )

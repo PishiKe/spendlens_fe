@@ -68,18 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
         body: const HomeScreenBody(),
-        bottomNavigationBar: const BottomNavbar(),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: AppTheme().lightBlue,
-          shape: const CircleBorder(),
-          elevation: 0,
-          child: Icon(
-            Icons.add,
-            color: AppTheme().white,
-          ),
-          onPressed: () => context.go('/addExpense'),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+
       );
     });
   }

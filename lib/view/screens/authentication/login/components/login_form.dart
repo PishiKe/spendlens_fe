@@ -28,7 +28,7 @@ class _LoginFormState extends State<LoginForm> {
     await _authenticationViewModel.login(loginModel.toJson());
 
     if (_authenticationViewModel.status == AuthStatus.authenticated) {
-      if (mounted) context.go('/');
+      if (mounted) context.go('/home');
     } else {
       final snackBar = SnackBar(
         elevation: 0,

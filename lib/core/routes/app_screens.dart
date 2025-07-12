@@ -1,9 +1,12 @@
 part of 'app_routes.dart';
 
 class AppScreens {
-  static const home = '/';
-  static const login = '/login';
-  static const addExpense = 'addExpense';
+  static const login = '/';
+  static const home = '/home';
+  static const addExpense = '/addExpense';
+  static const goals = '/goals';
+  static const recurring = '/recurring';
+  static const profile = '/profile';
 }
 
 class AppWidgets {
@@ -22,5 +25,24 @@ class AppWidgets {
   static Widget addExpense(
     BuildContext context,
     GoRouterState state,
-  ) => const ExpenseForm();
+  ) =>
+      const ExpenseForm();
+
+  static Widget goalsWidget(
+    BuildContext context,
+    GoRouterState state,
+  ) =>
+      const GoalsScreen();
+
+  static Widget recurringWidget(
+    BuildContext context,
+    GoRouterState state,
+  ) =>
+      const RecurringScreen();
+
+  static Widget profileWidget(
+    BuildContext context,
+    GoRouterState state,
+  ) =>
+      const ProfileScreen();
 }
